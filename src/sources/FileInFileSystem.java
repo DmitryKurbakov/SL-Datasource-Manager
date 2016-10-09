@@ -16,27 +16,33 @@ import java.util.*;
 
 import static com.sun.org.apache.xalan.internal.lib.ExsltStrings.split;
 
-public class FileInFileSystem{
+public class FileInFileSystem {
 
     ObservableList rowset;
     DataSource source;
     String filepath;
     Boolean hasHeader;
 
-    public DataSource getSource(){
+    public DataSource getSource() {
         return this.source;
     }
 
+<<<<<<< Updated upstream
     public FileInFileSystem(String filepath){
 //        source = new DataSource("File");
+=======
+    public FileInFileSystem(String filepath) {
+        source = new DataSource("File");
+>>>>>>> Stashed changes
         this.filepath = filepath;
         source.getFile_ds().setFile_type(getFileType());
         testConnection();
     }
 
-    public void saveConnection(){}
+    public void saveConnection() {
+    }
 
-    public ObservableList testConnection(){
+    public ObservableList testConnection() {
         try {
             CSVReader reader = new CSVReader(new FileReader(filepath));
 
@@ -50,31 +56,30 @@ public class FileInFileSystem{
             source.getFile_ds().setFile_delimeter(new String(new char[]{s.getSeparator()}));
             source.getFile_ds().setFile_header(hasHeader);
             source.getFile_ds().setFile_columns(cp.getFileColumns());
+        } catch (FileNotFoundException ex) {
+        } catch (IOException ex) {
         }
-
-        catch (FileNotFoundException ex){}
-        catch (IOException ex){}
 
         return rowset;
     }
 
-    private String getFileType(){
+    private String getFileType() {
         String[] ls = filepath.split("\\.");
         return ls[ls.length - 1];
     }
 
-    private boolean isExistHeader(List<String[]> rs){
+    private boolean isExistHeader(List<String[]> rs) {
         String[] a = rs.get(0);
 
         try {
             Integer.parseInt(a[0]);
             return false;
+        } catch (ParseException ex) {
         }
-        catch (ParseException ex){}
         return true;
     }
 
-    private String[] columnsName(List<String[]> rs){
+    private String[] columnsName(List<String[]> rs) {
         return rs.get(0);
     }
 
