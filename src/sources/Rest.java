@@ -1,8 +1,6 @@
 package sources;
 
 import data_object.DataSource;
-import data_object.DsParams;
-import data_object.RestDs;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
@@ -17,11 +15,11 @@ public class Rest {
     DataSource source;
     private String requestType;
     private String url;
-    private HashMap<String, String> postDataParams;
+    private HashMap<String, String> requestParams;
 
-    public Rest(String url, HashMap<String, String> postDataParams, String requestType) {
+    public Rest(String url, HashMap<String, String> requestParams, String requestType) {
         this.url = url;
-        this.postDataParams = postDataParams;
+        this.requestParams = requestParams;
         this.requestType = requestType;
         source = new DataSource("Rest");
     }
@@ -50,12 +48,12 @@ public class Rest {
         this.url = url;
     }
 
-    public HashMap<String, String> getPostDataParams() {
-        return postDataParams;
+    public HashMap<String, String> getRequestParams() {
+        return requestParams;
     }
 
-    public void setPostDataParams(HashMap<String, String> postDataParams) {
-        this.postDataParams = postDataParams;
+    public void setRequestParams(HashMap<String, String> requestParams) {
+        this.requestParams = requestParams;
     }
 
     public String testConnection() {
@@ -67,10 +65,6 @@ public class Rest {
             default:
                 return "";
         }
-
-
-//        source.setRest_ds(new RestDs(url, ));
-//        DsParams[] dsParamses = new
     }
 
     public String getResponse(HttpURLConnection conn) throws IOException {
@@ -95,7 +89,7 @@ public class Rest {
         String response = "";
 
         try {
-            requestUrl = new URL(url + "?" + getPostDataString(getPostDataParams()));
+            requestUrl = new URL(url + "?" + getPostDataString());
 
             HttpURLConnection conn = (HttpURLConnection) requestUrl.openConnection();
             conn.setReadTimeout(15000);
@@ -128,7 +122,7 @@ public class Rest {
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(
                     new OutputStreamWriter(os, "UTF-8"));
-            writer.write(getPostDataString(getPostDataParams()));
+            writer.write(getPostDataString());
 
             writer.flush();
             writer.close();
@@ -142,12 +136,12 @@ public class Rest {
         return response;
     }
 
-    private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
+    private String getPostDataString() throws UnsupportedEncodingException {
 
         StringBuilder result = new StringBuilder();
         boolean first = true;
 
-        for (Map.Entry<String, String> entry : params.entrySet()) {
+        for (Map.Entry<String, String> entry : requestParams.entrySet()) {
             if (first)
                 first = false;
             else

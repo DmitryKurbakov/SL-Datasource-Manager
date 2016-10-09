@@ -1,5 +1,7 @@
 package gui;
 
+import data_object.DataSource;
+import data_object.RestDs;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
@@ -13,7 +15,7 @@ import sources.FileInFileSystem;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Step2Controller implements Initializable{
+public class Step2Controller implements Initializable {
 
     private static Stage prevStage;
     private static Stage primaryStage;
@@ -23,68 +25,108 @@ public class Step2Controller implements Initializable{
     private String filename;
     private FileInFileSystem source;
 
-    public String getSv(){
+    private DataSource currentConnection;
+
+    public DataSource getCurrentConnection() {
+        return currentConnection;
+    }
+
+    public void setCurrentConnection(DataSource currentConnection) {
+        this.currentConnection = currentConnection;
+    }
+
+    public String getSv() {
         return this.sv;
     }
-    public void setSv(String sv){
+
+    public void setSv(String sv) {
         this.sv = sv;
     }
 
-    public void setPrevStage(Stage stage){
+    public void setPrevStage(Stage stage) {
         this.prevStage = stage;
     }
 
-    public void setName(String name) { this.name = name; }
-
-    @FXML public TextField nameOfSource;
-    @FXML private AnchorPane step2_pane;
-    @FXML private AnchorPane table;
-    @FXML private TextArea sourceDescr;
-    @FXML private TextField databaseName;
-    @FXML private TextField collectionName;
-    @FXML private ChoiceBox loadFreq;
-
-
-    public Step2Controller(){
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void onSaveButton() throws Exception{
+    @FXML
+    private TextField collectionName;
+
+    @FXML
+    private ChoiceBox loadFreq;
+
+    @FXML
+    public TextField nameOfSource;
+
+    @FXML
+    private AnchorPane step2_pane;
+
+    @FXML
+    private AnchorPane table;
+
+    @FXML
+    private TextArea sourceDescr;
+
+    @FXML
+    private TextField databaseName;
+
+    public Step2Controller() {
 
     }
 
-    @FXML public void onLoadButton(){
+    public void onSaveButton() throws Exception {
+
+    }
+
+    @FXML
+    public void onLoadButton() {
+
+        switch (sv) {
+            case "File":
+                createFileSource();
+                break;
+            case "REST":
+                createRestSource();
+                break;
+            case "JDBC":
+                createJDBCSource();
+                break;
+        }
+    }
+
+    public void createFileSource() {
 
         try {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV", "*.csv"));
             fileChooser.setTitle("Choose file");
             this.filename = fileChooser.showOpenDialog(prevStage).getAbsolutePath();
+        } catch (NullPointerException ex) {
         }
 
-        catch (NullPointerException ex){}
-
-        if (sv.equals("File")) {createFileSource();}
-        else if (sv.equals("REST")) {createRestSource();}
-        else if (sv.equals("JDBC")) {createJDBCSource();}
-    }
-
-    public void createFileSource(){
-
         source = new FileInFileSystem(this.filename);
-
-
-
-        //ObservableList<StringProperty> v = (ObservableList<StringProperty>) source.testConnection();
-        //table_view.getItems().addAll(v);
-
+        source.getSource().setName(this.name);
     }
-    public void createRestSource(){}
-    public void createJDBCSource(){}
+
+
+    //ObservableList<StringProperty> v = (ObservableList<StringProperty>) source.testConnection();
+    //table_view.getItems().addAll(v);
+
+    public void createRestSource() {
+//        RestDs restDs = new RestDs()
+//        currentConnection.setRest_ds();
+    }
+
+    public void createJDBCSource() {
+    }
 
     @Override
-    public void initialize(URL arg0, ResourceBundle arg1){}
+    public void initialize(URL arg0, ResourceBundle arg1) {
+    }
 
-    private void setAtributes(){
+    private void setAtributes() {
         source.getSource().setName(this.name);
         source.getSource().setDesc(sourceDescr.getText());
         source.getSource().setTgt_db(databaseName.getText());
