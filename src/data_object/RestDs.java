@@ -1,6 +1,4 @@
-package logic;
-
-import logic.DsParams;
+package data_object;
 
 import java.net.URL;
 

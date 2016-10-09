@@ -1,4 +1,4 @@
-package logic;
+package data_object;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

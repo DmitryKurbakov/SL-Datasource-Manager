@@ -5,12 +5,9 @@ import com.opencsv.CSVParser;
 import com.opencsv.CSVReader;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 import helpers.ColumnsPopulate;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import logic.DataSource;
-import logic.FileColumns;
+import data_object.DataSource;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

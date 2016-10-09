@@ -1,8 +1,7 @@
 package helpers;
 
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
-import logic.FileColumns;
+import data_object.FileColumns;
 
 import java.util.List;
 

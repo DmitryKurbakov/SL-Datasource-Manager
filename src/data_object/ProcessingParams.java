@@ -1,4 +1,4 @@
-package logic;
+package data_object;
 
 public class ProcessingParams {
 

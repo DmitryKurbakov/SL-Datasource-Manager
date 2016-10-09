@@ -1,6 +1,4 @@
-package logic;
-
-import java.io.File;
+package data_object;
 
 public class FileDS {
 
