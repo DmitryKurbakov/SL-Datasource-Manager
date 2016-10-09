@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+
+<AnchorPane fx:id="step2_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="503.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Step2Controller">
+   <children>
+      <AnchorPane layoutY="14.0" prefHeight="39.0" prefWidth="696.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label layoutX="14.0" layoutY="6.0" text="Label" AnchorPane.leftAnchor="0.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="14.0" layoutY="77.0" prefHeight="39.0" prefWidth="580.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0">
+         <children>
+            <Label layoutX="6.0" layoutY="6.0" text="Label" AnchorPane.leftAnchor="0.0" />
+            <TextField layoutX="178.0" />
+            <Button layoutX="450.0" mnemonicParsing="false" onAction="#onLoadButton" text="Load" />
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="table" layoutX="13.0" layoutY="124.0" prefHeight="369.0" prefWidth="720.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="85.0">
+         <children>
+            <TabPane layoutX="3.0" prefHeight="322.0" prefWidth="690.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+              <tabs>
+                <Tab text="Basic">
+                     <content>
+                        <AnchorPane prefHeight="232.0" prefWidth="720.0">
+                           <children>
+            
+                                    <AnchorPane prefHeight="278.0" prefWidth="700.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                                    <children>
+                                       <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="668.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="14.0">
+                                          <children>
+                                             <Label text="Name" AnchorPane.leftAnchor="0.0" />
+                                             <TextField fx:id="nameOfSource" layoutX="54.0" layoutY="-6.0" prefHeight="8.0" prefWidth="224.0" AnchorPane.leftAnchor="54.0" />
+                                          </children>
+                                       </AnchorPane>
+                                       <AnchorPane layoutX="10.0" layoutY="25.0" prefHeight="170.0" prefWidth="680.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0">
+                                          <children>
+                                             <Label layoutY="14.0" text="Description" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                              <TextArea fx:id="sourceDescr" layoutY="41.0" prefHeight="128.0" prefWidth="691.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="27.0" />
+                                          </children>
+                                       </AnchorPane>
+                                    <AnchorPane layoutX="10.0" layoutY="230.0" prefHeight="27.0" prefWidth="668.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                                       <children>
+                                          <Label text="Type" AnchorPane.leftAnchor="0.0" />
+                                          <TextField layoutX="54.0" layoutY="-6.0" prefHeight="8.0" prefWidth="224.0" AnchorPane.leftAnchor="54.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    </children>
+                                 </AnchorPane>
+                           </children>
+            
+                        </AnchorPane>
+                     </content>
+                </Tab>
+                <Tab text="Authorization">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </Tab>
+                  <Tab text="Saving data">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="255.0" prefWidth="663.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="274.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
+                                       <children>
+                                          <Label text="Database name" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <TextField fx:id="databaseName" layoutX="133.0" layoutY="-6.0" prefHeight="18.0" prefWidth="224.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="14.0" layoutY="41.0" prefHeight="27.0" prefWidth="274.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.0">
+                                       <children>
+                                          <Label text="Collection name" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <TextField layoutX="133.0" layoutY="-6.0" prefHeight="18.0" prefWidth="224.0" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                           </children></AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab text="Scheduling">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="197.0" prefWidth="580.0">
+                           <children>
+                              <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="254.0" prefWidth="662.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
+                                 <children>
+                                    <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="39.0" prefWidth="601.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
+                                       <children>
+                                          <Label layoutX="14.0" layoutY="6.0" text="Treatment frequency" AnchorPane.leftAnchor="0.0" />
+                                          <ChoiceBox layoutX="179.0" prefWidth="150.0" value="Choose treatment frequency">
+                                           <items>
+                                               <FXCollections fx:factory="observableArrayList">
+                                                   <String fx:value="Online" />
+                                                   <String fx:value="Daily" />
+                                                   <String fx:value="Weekly" />
+                                                   <String fx:value="Monthly" />
+                                               </FXCollections>
+                                           </items>
+                                           </ChoiceBox>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                           </children></AnchorPane>
+                    </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="10.0" layoutY="454.0" prefHeight="39.0" prefWidth="696.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <children>
+            <Button layoutX="464.0" mnemonicParsing="false" text="&lt; Previous" />
+            <Button layoutX="573.0" mnemonicParsing="false" onAction="#onNextButton" text="Save" />
+            <Button layoutX="634.0" mnemonicParsing="false" text="Exit" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
