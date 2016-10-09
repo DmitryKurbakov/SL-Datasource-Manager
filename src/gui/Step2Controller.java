@@ -1,13 +1,11 @@
 package gui;
 
 import data_object.DataSource;
-import data_object.RestDs;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import sources.FileInFileSystem;
@@ -20,12 +18,25 @@ public class Step2Controller implements Initializable {
     private static Stage prevStage;
     private static Stage primaryStage;
 
-    private String name;
-    private String sv;
-    private String filename;
-    private FileInFileSystem source;
-
     private DataSource currentConnection;
+
+    @FXML
+    private TextField collectionName;
+
+    @FXML
+    private ChoiceBox loadFreq;
+
+    @FXML
+    private TextField nameOfSource;
+
+    @FXML
+    private TextArea sourceDescr;
+
+    @FXML
+    private TextField databaseName;
+
+    @FXML
+    private TextField type;
 
     public DataSource getCurrentConnection() {
         return currentConnection;
@@ -35,45 +46,20 @@ public class Step2Controller implements Initializable {
         this.currentConnection = currentConnection;
     }
 
-    public String getSv() {
-        return this.sv;
-    }
-
-    public void setSv(String sv) {
-        this.sv = sv;
-    }
 
     public void setPrevStage(Stage stage) {
         this.prevStage = stage;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameOfSource(String nameOfSource) {
+        this.nameOfSource.setText(nameOfSource);
     }
 
-    @FXML
-    private TextField collectionName;
-
-    @FXML
-    private ChoiceBox loadFreq;
-
-    @FXML
-    public TextField nameOfSource;
-
-    @FXML
-    private AnchorPane step2_pane;
-
-    @FXML
-    private AnchorPane table;
-
-    @FXML
-    private TextArea sourceDescr;
-
-    @FXML
-    private TextField databaseName;
+    public void setType(String type) {
+        this.type.setText(type);
+    }
 
     public Step2Controller() {
-
     }
 
     public void onSaveButton() throws Exception {
@@ -83,7 +69,9 @@ public class Step2Controller implements Initializable {
     @FXML
     public void onLoadButton() {
 
-        switch (sv) {
+        setAtributes();
+
+        switch (currentConnection.getName()) {
             case "File":
                 createFileSource();
                 break;
@@ -102,12 +90,9 @@ public class Step2Controller implements Initializable {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV", "*.csv"));
             fileChooser.setTitle("Choose file");
-            this.filename = fileChooser.showOpenDialog(prevStage).getAbsolutePath();
+            FileInFileSystem source = new FileInFileSystem(fileChooser.showOpenDialog(prevStage).getAbsolutePath());
         } catch (NullPointerException ex) {
         }
-
-        source = new FileInFileSystem(this.filename);
-        source.getSource().setName(this.name);
     }
 
 
@@ -127,11 +112,10 @@ public class Step2Controller implements Initializable {
     }
 
     private void setAtributes() {
-        source.getSource().setName(this.name);
-        source.getSource().setDesc(sourceDescr.getText());
-        source.getSource().setTgt_db(databaseName.getText());
-        source.getSource().setTgt_collection(collectionName.getText());
-        source.getSource().setTgt_load_freq(loadFreq.getValue().toString());
+        currentConnection.setDesc(sourceDescr.getText());
+        currentConnection.setTgt_db(databaseName.getText());
+        currentConnection.setTgt_collection(collectionName.getText());
+        currentConnection.setTgt_load_freq(loadFreq.getValue().toString());
     }
 
-}//end of class
+}

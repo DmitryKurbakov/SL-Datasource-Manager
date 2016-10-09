@@ -28,7 +28,7 @@ public class FileInFileSystem{
     }
 
     public FileInFileSystem(String filepath){
-        source = new DataSource("File");
+//        source = new DataSource("File");
         this.filepath = filepath;
         source.getFile_ds().setFile_type(getFileType());
         testConnection();

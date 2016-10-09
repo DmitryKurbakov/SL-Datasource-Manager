@@ -46,7 +46,7 @@
                                     <AnchorPane layoutX="10.0" layoutY="230.0" prefHeight="27.0" prefWidth="668.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                                        <children>
                                           <Label text="Type" AnchorPane.leftAnchor="0.0" />
-                                          <TextField layoutX="54.0" layoutY="-6.0" prefHeight="8.0" prefWidth="224.0" AnchorPane.leftAnchor="54.0" />
+                                          <TextField fx:id="type" layoutX="54.0" layoutY="-6.0" prefHeight="8.0" prefWidth="224.0" AnchorPane.leftAnchor="54.0" />
                                        </children>
                                     </AnchorPane>
                                     </children>

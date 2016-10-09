@@ -21,7 +21,6 @@ public class Rest {
         this.url = url;
         this.requestParams = requestParams;
         this.requestType = requestType;
-        source = new DataSource("Rest");
     }
 
     public DataSource getSource() {

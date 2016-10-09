@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class DataSource {
 
-    private SimpleDateFormat created = new SimpleDateFormat("dd.MM.yyyy hh:mm"); //Date date = new Date(); curent date
+    private SimpleDateFormat created = new SimpleDateFormat("dd.MM.yyyy hh:mm");
     private SimpleDateFormat updated = new SimpleDateFormat("dd.MM.yyyy hh:mm");
     private TgtLoadSchedule[] tgt_load_schedule;
     private DsAuth ds_auth;
@@ -23,32 +23,24 @@ public class DataSource {
     private String tgt_load_freq;
     private String processing_type;
 
-    public FileDS getFile_ds(){
+    public FileDS getFile_ds() {
         return file_ds;
-    }
-
-    public void setName(String name){
-        this.name = name;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public void setDesc(String desc){
+    public void setDesc(String desc) {
         this.desc = desc;
     }
 
-    public void setTgt_db(String tgt_db){
+    public void setTgt_db(String tgt_db) {
         this.tgt_db = tgt_db;
     }
 
     public SimpleDateFormat getCreated() {
         return created;
-    }
-
-    public void setCreated(SimpleDateFormat created) {
-        this.created = created;
     }
 
     public SimpleDateFormat getUpdated() {
@@ -127,10 +119,6 @@ public class DataSource {
         return ds_type;
     }
 
-    public void setDs_type(String ds_type) {
-        this.ds_type = ds_type;
-    }
-
     public String getTgt_db() {
         return tgt_db;
     }
@@ -159,19 +147,24 @@ public class DataSource {
         this.processing_type = processing_type;
     }
 
-    public DataSource(String ds_type){
+    public DataSource(String ds_type, String name) {
+
         this.ds_type = ds_type;
+        this.name = name;
         created.format(new Date());
+        updated.format(new Date());
+        created_by = "An";
+        updated_by = "An";
         defType(ds_type);
     }
 
-    private void defType(String type){
+    private void defType(String type) {
 
-        if (type.equals("File")){
+        if (type.equals("File")) {
             file_ds = new FileDS();
         }
 
-        if (type.equals("Rest")){
+        if (type.equals("Rest")) {
 //            rest_ds = new RestDs();
         }
     }
