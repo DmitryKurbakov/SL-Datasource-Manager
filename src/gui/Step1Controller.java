@@ -40,7 +40,7 @@ public class Step1Controller implements Initializable {
     private Button exit_button;
 
     public void setPrevStage(Stage stage) {
-        this.prevStage = stage;
+        prevStage = stage;
     }
 
     //TODO: step1 over previous pane
@@ -55,8 +55,8 @@ public class Step1Controller implements Initializable {
         primaryStage = new Stage();
         primaryStage.setTitle("Step 2");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("step2.fxml"));
-        Pane pane = (Pane) loader.load();
-        Step2Controller sc = (Step2Controller) loader.getController();
+        Pane pane = loader.load();
+        Step2Controller sc = loader.getController();
         sc.setPrevStage(primaryStage);
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);

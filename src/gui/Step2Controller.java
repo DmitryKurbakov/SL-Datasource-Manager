@@ -1,6 +1,7 @@
 package gui;
 
 import data_object.DataSource;
+import data_object.FileDS;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
@@ -9,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import sources.FileInFileSystem;
+import sources.Rest;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -100,8 +102,7 @@ public class Step2Controller implements Initializable {
     //table_view.getItems().addAll(v);
 
     public void createRestSource() {
-//        RestDs restDs = new RestDs()
-//        currentConnection.setRest_ds();
+//        Rest rest = new Rest()
     }
 
     public void createJDBCSource() {
