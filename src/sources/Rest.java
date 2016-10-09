@@ -1,5 +1,9 @@
 package sources;
 
+import data_object.DataSource;
+import data_object.DsParams;
+import data_object.RestDs;
+
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -10,13 +14,31 @@ import java.util.Map;
 
 public class Rest {
 
+    DataSource source;
+    private String requestType;
     private String url;
     private HashMap<String, String> postDataParams;
-    private String requestType;
 
     public Rest(String url, HashMap<String, String> postDataParams, String requestType) {
         this.url = url;
         this.postDataParams = postDataParams;
+        this.requestType = requestType;
+        source = new DataSource("Rest");
+    }
+
+    public DataSource getSource() {
+        return source;
+    }
+
+    public void setSource(DataSource source) {
+        this.source = source;
+    }
+
+    public String getRequestType() {
+        return requestType;
+    }
+
+    public void setRequestType(String requestType) {
         this.requestType = requestType;
     }
 
@@ -45,6 +67,9 @@ public class Rest {
             default:
                 return "";
         }
+//
+//        source.setRest_ds(new RestDs(url, ));
+//        DsParams[] dsParamses = new
     }
 
     public String getResponse(HttpURLConnection conn) throws IOException {
