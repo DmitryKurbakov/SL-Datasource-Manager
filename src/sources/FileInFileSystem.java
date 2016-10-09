@@ -27,13 +27,10 @@ public class FileInFileSystem {
         return this.source;
     }
 
-<<<<<<< Updated upstream
+
     public FileInFileSystem(String filepath){
 //        source = new DataSource("File");
-=======
-    public FileInFileSystem(String filepath) {
-        source = new DataSource("File");
->>>>>>> Stashed changes
+
         this.filepath = filepath;
         source.getFile_ds().setFile_type(getFileType());
         testConnection();
