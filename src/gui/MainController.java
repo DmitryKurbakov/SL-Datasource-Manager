@@ -36,7 +36,7 @@ public class MainController implements Initializable{
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
         Stage st = (Stage)main_pane.getScene().getWindow();
-        st.close();
+        //st.close();
         primaryStage.show();
         //main_pane.setDisable(true);
         //Step1Controller cs = new Step1Controller();

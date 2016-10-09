@@ -2,6 +2,7 @@ package gui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -40,11 +41,14 @@ public class Step2Controller implements Initializable{
     @FXML private AnchorPane table;
     @FXML private TextArea sourceDescr;
     @FXML private TextField databaseName;
+    @FXML private TextField collectionName;
+    @FXML private ChoiceBox loadFreq;
+
 
     public Step2Controller(){
     }
 
-    public void onNextButton() throws Exception{
+    public void onSaveButton() throws Exception{
 
     }
 
@@ -68,7 +72,8 @@ public class Step2Controller implements Initializable{
 
         source = new FileInFileSystem(this.filename);
 
-        source.getSource().setName(this.name);
+
+
         //ObservableList<StringProperty> v = (ObservableList<StringProperty>) source.testConnection();
         //table_view.getItems().addAll(v);
 
@@ -80,8 +85,11 @@ public class Step2Controller implements Initializable{
     public void initialize(URL arg0, ResourceBundle arg1){}
 
     private void setAtributes(){
+        source.getSource().setName(this.name);
         source.getSource().setDesc(sourceDescr.getText());
         source.getSource().setTgt_db(databaseName.getText());
+        source.getSource().setTgt_collection(collectionName.getText());
+        source.getSource().setTgt_load_freq(loadFreq.getValue().toString());
     }
 
 }//end of class
