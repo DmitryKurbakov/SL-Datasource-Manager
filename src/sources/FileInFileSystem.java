@@ -23,13 +23,17 @@ public class FileInFileSystem {
     String filepath;
     Boolean hasHeader;
 
+    public ObservableList getRowset(){
+        return this.rowset;
+    }
+
     public DataSource getSource() {
         return this.source;
     }
 
 
-    public FileInFileSystem(String filepath){
-//        source = new DataSource("File");
+    public FileInFileSystem(DataSource source, String filepath){
+        this.source = source;
 
         this.filepath = filepath;
         source.getFile_ds().setFile_type(getFileType());

@@ -42,9 +42,9 @@ public class MainController extends Application implements Initializable {
     @Override
     public void start(Stage stage){
     }
+
     @FXML
     private void onCreateButton(ActionEvent event) throws Exception {
-
         primaryStage = new Stage();
         primaryStage.setTitle("Step 1");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("step1.fxml"));
@@ -99,5 +99,9 @@ public class MainController extends Application implements Initializable {
         colCreatedBy.setCellValueFactory(new PropertyValueFactory<Row, String>("createdBy"));
         colLastUpdate.setCellValueFactory(new PropertyValueFactory<Row, String>("lastUpdate"));
         colLastUpdatedBy.setCellValueFactory(new PropertyValueFactory<Row, String>("lastUpdatedBy"));
+    }
+
+    @FXML public void onClose(){
+        System.exit(0);
     }
 }

@@ -2,17 +2,21 @@ package gui;
 
 import data_object.DataSource;
 import data_object.FileDS;
-import helpers.ArangoDbManager;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import sources.FileInFileSystem;
 import sources.Rest;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -23,23 +27,19 @@ public class Step2Controller implements Initializable {
 
     private DataSource currentConnection;
 
-    @FXML
-    private TextField collectionName;
+    @FXML private TextField collectionName;
 
-    @FXML
-    private ChoiceBox loadFreq;
+    @FXML private ChoiceBox loadFreq;
 
-    @FXML
-    private TextField nameOfSource;
+    @FXML private TextField nameOfSource;
 
-    @FXML
-    private TextArea sourceDescr;
+    @FXML private TextArea sourceDescr;
 
-    @FXML
-    private TextField databaseName;
+    @FXML private TextField databaseName;
 
-    @FXML
-    private TextField type;
+    @FXML private TextField type;
+
+    @FXML private TextArea parsing;
 
     public DataSource getCurrentConnection() {
         return currentConnection;
@@ -72,33 +72,31 @@ public class Step2Controller implements Initializable {
     @FXML
     public void onLoadButton() {
 
+        switch (currentConnection.getDs_type()) {
+            case "File":
+                createFileSource();
+                break;
+            case "REST":
+                createRestSource();
+                break;
+            case "JDBC":
+                createJDBCSource();
+                break;
+        }
         setAtributes();
-
-        ArangoDbManager arangoDbManager = new ArangoDbManager();
-        arangoDbManager.createDocument(currentConnection);
-        DataSource ds = arangoDbManager.readDocument();
-
-//        switch (currentConnection.getName()) {
-//            case "File":
-//                createFileSource();
-//                break;
-//            case "REST":
-//                createRestSource();
-//                break;
-//            case "JDBC":
-//                createJDBCSource();
-//                break;
-//        }
     }
 
     public void createFileSource() {
-
+        FileInFileSystem source = null;
         try {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV", "*.csv"));
             fileChooser.setTitle("Choose file");
-            FileInFileSystem source = new FileInFileSystem(fileChooser.showOpenDialog(prevStage).getAbsolutePath());
+            source = new FileInFileSystem(currentConnection, fileChooser.showOpenDialog(prevStage).getAbsolutePath());
         } catch (NullPointerException ex) {
+        }
+        finally {
+            parseFile(source);
         }
     }
 
@@ -122,6 +120,26 @@ public class Step2Controller implements Initializable {
         currentConnection.setTgt_db(databaseName.getText());
         currentConnection.setTgt_collection(collectionName.getText());
         currentConnection.setTgt_load_freq(loadFreq.getValue().toString());
+    }
+
+    @FXML public void onPreviousButton() throws IOException{
+        Stage stage = new Stage();
+        stage.setTitle("Step 1");
+        Pane myPane = FXMLLoader.load(getClass().getResource("step1.fxml"));
+        Scene scene = new Scene(myPane);
+        stage.setScene(scene);
+        prevStage.close();
+        stage.show();
+    }
+
+    @FXML public void onExitButton(){
+        prevStage.close();
+    }
+
+    private void parseFile(FileInFileSystem file){
+        ObservableList ol = file.getRowset();
+        parsing.setWrapText(true);
+        parsing.setText(ol.toString());
     }
 
 }
