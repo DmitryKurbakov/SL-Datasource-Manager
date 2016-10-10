@@ -50,7 +50,7 @@ public class Step1Controller implements Initializable {
 
     public void onNextButton(ActionEvent event) throws Exception {
 
-        DataSource newConnection = new DataSource(ds_type.getValue().toString(), name.toString());
+        DataSource newConnection = new DataSource(ds_type.getValue().toString(), name.getText());
 
         primaryStage = new Stage();
         primaryStage.setTitle("Step 2");

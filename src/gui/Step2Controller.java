@@ -2,6 +2,7 @@ package gui;
 
 import data_object.DataSource;
 import data_object.FileDS;
+import helpers.ArangoDbManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
@@ -73,17 +74,21 @@ public class Step2Controller implements Initializable {
 
         setAtributes();
 
-        switch (currentConnection.getName()) {
-            case "File":
-                createFileSource();
-                break;
-            case "REST":
-                createRestSource();
-                break;
-            case "JDBC":
-                createJDBCSource();
-                break;
-        }
+        ArangoDbManager arangoDbManager = new ArangoDbManager();
+        arangoDbManager.createDocument(currentConnection);
+        DataSource ds = arangoDbManager.readDocument();
+
+//        switch (currentConnection.getName()) {
+//            case "File":
+//                createFileSource();
+//                break;
+//            case "REST":
+//                createRestSource();
+//                break;
+//            case "JDBC":
+//                createJDBCSource();
+//                break;
+//        }
     }
 
     public void createFileSource() {

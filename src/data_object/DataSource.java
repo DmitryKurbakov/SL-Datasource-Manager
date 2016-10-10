@@ -5,8 +5,8 @@ import java.util.Date;
 
 public class DataSource {
 
-    private SimpleDateFormat created = new SimpleDateFormat("dd.MM.yyyy hh:mm");
-    private SimpleDateFormat updated = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+    private String created;
+    private String updated;
     private TgtLoadSchedule[] tgt_load_schedule;
     private DsAuth ds_auth;
     private ProcessingParams processing_params;
@@ -40,15 +40,15 @@ public class DataSource {
     }
 
     public SimpleDateFormat getCreated() {
-        return created;
+        return new SimpleDateFormat(created);
     }
 
     public SimpleDateFormat getUpdated() {
-        return updated;
+        return new SimpleDateFormat(updated);
     }
 
     public void setUpdated(SimpleDateFormat updated) {
-        this.updated = updated;
+        this.updated = updated.toString();
     }
 
     public TgtLoadSchedule[] getTgt_load_schedule() {
@@ -151,8 +151,8 @@ public class DataSource {
 
         this.ds_type = ds_type;
         this.name = name;
-        created.format(new Date());
-        updated.format(new Date());
+        created = new SimpleDateFormat("dd.MM.yyyy hh:mm").format(new Date());
+        updated = new SimpleDateFormat("dd.MM.yyyy hh:mm").format(new Date());
         created_by = "An";
         updated_by = "An";
         defType(ds_type);
