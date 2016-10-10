@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="main_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="571.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
+<AnchorPane fx:id="main_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="637.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
    <children>
       <MenuBar prefHeight="7.0" prefWidth="571.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
@@ -42,7 +42,16 @@
       </AnchorPane>
       <AnchorPane layoutY="62.0" prefHeight="360.0" prefWidth="571.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="57.0">
          <children>
-            <ListView prefHeight="293.0" prefWidth="551.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+            <TableView fx:id="tableView" layoutX="14.0" layoutY="14.0" prefHeight="281.0" prefWidth="617.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+               <columns>
+                  <TableColumn fx:id="colName"  prefWidth="75.0" text="Name" />
+                  <TableColumn fx:id="colType" prefWidth="75.0" text="Type" />
+                  <TableColumn fx:id="colCreated" prefWidth="75.0" text="Created" />
+                  <TableColumn fx:id="colCreatedBy" prefWidth="109.0" text="Created by" />
+                  <TableColumn fx:id="colLastUpdate" prefWidth="110.0" text="Last update" />
+                  <TableColumn fx:id="colLastUpdatedBy" minWidth="6.0" prefWidth="166.0" text="Last updated by" />
+               </columns>
+            </TableView>
          </children>
       </AnchorPane>
       <Label layoutX="12.0" layoutY="366.0" text="Console:" AnchorPane.leftAnchor="10.0">

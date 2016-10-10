@@ -1,12 +1,14 @@
 package gui;
 
 import data_object.DataSource;
+import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
-public class MainController implements Initializable {
+public class MainController extends Application implements Initializable {
 
     private static Stage primaryStage;
     private ArrayList<DataSource> connections;
@@ -28,6 +30,18 @@ public class MainController implements Initializable {
     @FXML
     private Button create_button;
 
+    @FXML
+    private TableView tableView;
+    @FXML private TableColumn colName;
+    @FXML private TableColumn colType;
+    @FXML private TableColumn colCreated;
+    @FXML private TableColumn colCreatedBy;
+    @FXML private TableColumn colLastUpdate;
+    @FXML private TableColumn colLastUpdatedBy;
+
+    @Override
+    public void start(Stage stage){
+    }
     @FXML
     private void onCreateButton(ActionEvent event) throws Exception {
 
@@ -42,6 +56,8 @@ public class MainController implements Initializable {
         Stage st = (Stage) main_pane.getScene().getWindow();
         //st.close();
         primaryStage.show();
+
+
     }
 
     @FXML
@@ -70,10 +86,18 @@ public class MainController implements Initializable {
     */
 
 
+
     public MainController() {
+
     }
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        colName.setCellValueFactory(new PropertyValueFactory<Row, String>("name"));
+        colType.setCellValueFactory(new PropertyValueFactory<Row, String>("type"));
+        colCreated.setCellValueFactory(new PropertyValueFactory<Row, String>("created"));
+        colCreatedBy.setCellValueFactory(new PropertyValueFactory<Row, String>("createdBy"));
+        colLastUpdate.setCellValueFactory(new PropertyValueFactory<Row, String>("lastUpdate"));
+        colLastUpdatedBy.setCellValueFactory(new PropertyValueFactory<Row, String>("lastUpdatedBy"));
     }
 }
