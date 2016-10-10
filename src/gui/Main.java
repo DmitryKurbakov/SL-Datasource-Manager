@@ -24,17 +24,12 @@ public class Main extends Application {
         Pane myPane = FXMLLoader.load(getClass().getResource("main_form.fxml"));
         Scene scene = new Scene(myPane);
 
+
+
         primaryStage.setTitle("SL Datasource Manager");
         primaryStage.setScene(scene);
         primaryStage.centerOnScreen();
         primaryStage.show();
-
-        //MainController cm = new MainController(primaryStage);
-
-       /* Parent root = FXMLLoader.load(getClass().getResource("main_form.fxml"));
-        primaryStage.setTitle("SL Datasource Manager");
-        primaryStage.setScene(new Scene(root, 600, 500));
-        primaryStage.show();*/
 
     }
 
