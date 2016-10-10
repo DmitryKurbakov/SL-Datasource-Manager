@@ -1,5 +1,10 @@
 package sources;
 
+import com.arangodb.ArangoConfigure;
+import com.arangodb.ArangoDriver;
+import com.arangodb.ArangoException;
+import com.arangodb.entity.BaseDocument;
+import com.arangodb.entity.CollectionEntity;
 import data_object.DataSource;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -121,7 +126,9 @@ public class Rest {
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(
                     new OutputStreamWriter(os, "UTF-8"));
-            writer.write(getPostDataString());
+            writer.write("{\n" +
+                    "\"profession\" : \"singer\"\n" +
+                    "}");
 
             writer.flush();
             writer.close();
