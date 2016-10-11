@@ -15,8 +15,8 @@ import java.util.List;
  */
 public class ArangoDbManager {
 
-    static final private String USER = "root";
-    static final private String PASSWORD = "zuwa45we";
+    static public String User;
+    static public String Password;
 
     private ArangoConfigure configure;
     private ArangoDriver arangoDriver;
@@ -24,8 +24,8 @@ public class ArangoDbManager {
     public ArangoDbManager() {
 
         this.configure = new ArangoConfigure();
-        configure.setUser("root");
-        configure.setPassword("zuwa45we");
+        configure.setUser(User);
+        configure.setPassword(Password);
         configure.init();
         arangoDriver = new ArangoDriver(configure);
     }
@@ -48,7 +48,7 @@ public class ArangoDbManager {
         arangoDriver.setDefaultDatabase(database);
         DataSource dataSource = null;
         try {
-            dataSource = arangoDriver.getDocument(collection, id, DataSource.class).getEntity();
+            dataSource = arangoDriver.getDocument(collection, id.split("/")[1], DataSource.class).getEntity();
         } catch (ArangoException e) {
             System.out.println("Failed to get document. " + e.getMessage());
         }
@@ -87,7 +87,10 @@ public class ArangoDbManager {
         try {
             List<String> databases = arangoDriver.getDatabases(true).getResult();
             for (String databaseName : databases) {
-                allDatabases.add(readCollections(databaseName));
+                List<List<DataSource>> r = readCollections(databaseName);
+                if (r.size() != 0) {
+                    allDatabases.add(r);
+                }
             }
 
         } catch (ArangoException e) {
@@ -104,7 +107,10 @@ public class ArangoDbManager {
         try {
             CollectionsEntity collections = arangoDriver.getCollections(true);
             for (Object collectionName : collections.getNames().values().toArray()) {
-                allColections.add(readDocuments(database, ((CollectionEntity) collectionName).getName()));
+                List<DataSource> r = readDocuments(database, ((CollectionEntity) collectionName).getName());
+                if (r.size() != 0) {
+                    allColections.add(r);
+                }
             }
         } catch (ArangoException e) {
             System.out.println(e.getMessage());
@@ -121,7 +127,10 @@ public class ArangoDbManager {
         try {
             List<String> documents = arangoDriver.getDocuments(collection);
             for (String documentName : documents) {
-                allDocuments.add(readDocument(database, collection, documentName));
+                DataSource r = readDocument(database, collection, documentName);
+                if (r != null) {
+                    allDocuments.add(r);
+                }
             }
         } catch (ArangoException e) {
             e.printStackTrace();

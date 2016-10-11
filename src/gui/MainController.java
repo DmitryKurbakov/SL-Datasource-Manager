@@ -106,7 +106,7 @@ public class MainController extends Application implements Initializable {
                 for (int j = 0; j < ds.get(i).size(); j++) {
                     for (int k = 0; k < ds.get(i).get(j).size(); k++) {
                         DataSource data = (DataSource) ds.get(i).get(j).get(k);
-                        if (data!=null) connections.add(data);
+                        if (data != null) connections.add(data);
                     }
                 }
             }
@@ -116,9 +116,9 @@ public class MainController extends Application implements Initializable {
                 Row row = new Row();
                 row.setName(connections.get(i).getName());
                 row.setType(connections.get(i).getDs_type());
-                row.setCreated(new SimpleDateFormat("dd.MM.yyyy hh:mm").format(connections.get(i).getCreated()));
+                row.setCreated(connections.get(i).getCreated());
                 row.setCreatedBy(connections.get(i).getCreated_by());
-                row.setLastUpdate(new SimpleDateFormat("dd.MM.yyyy hh:mm").format(connections.get(i).getUpdated()));
+                row.setLastUpdate(connections.get(i).getUpdated());
                 row.setLastUpdateBy(connections.get(i).getUpdated_by());
                 data.add(row);
             }

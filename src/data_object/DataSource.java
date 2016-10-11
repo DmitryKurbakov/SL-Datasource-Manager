@@ -39,16 +39,20 @@ public class DataSource {
         this.tgt_db = tgt_db;
     }
 
-    public SimpleDateFormat getCreated() {
-        return new SimpleDateFormat(created);
+    public String getCreated() {
+        return created;
     }
 
-    public SimpleDateFormat getUpdated() {
-        return new SimpleDateFormat(updated);
+    public String getUpdated() {
+        return updated;
     }
 
-    public void setUpdated(SimpleDateFormat updated) {
-        this.updated = updated.toString();
+    public void setUpdated(String updated) {
+        this.updated = updated;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
     }
 
     public TgtLoadSchedule[] getTgt_load_schedule() {

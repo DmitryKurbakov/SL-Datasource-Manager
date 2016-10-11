@@ -1,9 +1,9 @@
 package gui;
 
+import helpers.ArangoDbManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -15,17 +15,23 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AutorizationController implements Initializable{
+public class AutorizationController implements Initializable {
 
-    @FXML private AnchorPane autorizationPane;
-    @FXML private TextField user;
-    @FXML private PasswordField password;
+    @FXML
+    private AnchorPane autorizationPane;
+    @FXML
+    private TextField user;
+    @FXML
+    private PasswordField password;
 
     private Stage prevStage;
     private Stage primaryStage;
 
     @FXML
-    public void onSignInButton() throws IOException{
+    public void onSignInButton() throws IOException {
+
+        ArangoDbManager.User = user.getText();
+        ArangoDbManager.Password = password.getText();
         primaryStage = new Stage();
         primaryStage.setTitle("SL Datasource Manager");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("main_form.fxml"));
@@ -39,5 +45,6 @@ public class AutorizationController implements Initializable{
     }
 
     @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {}
+    public void initialize(URL arg0, ResourceBundle arg1) {
+    }
 }
