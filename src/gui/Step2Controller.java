@@ -1,7 +1,9 @@
 package gui;
 
+import com.arangodb.util.StringUtils;
 import data_object.DataSource;
 import data_object.DsParams;
+import data_object.FileDS;
 import data_object.RestDs;
 import helpers.ArangoDbManager;
 import helpers.TypeDef;
@@ -30,45 +32,33 @@ import java.util.*;
 public class Step2Controller implements Initializable {
 
 
-
     private static Stage prevStage;
     private static Stage primaryStage;
     ArangoDbManager arangoDbManager;
 
     private DataSource currentConnection;
 
-    @FXML
-    private AnchorPane paneCollectionName;
+    @FXML private AnchorPane paneCollectionName;
 
-    @FXML
-    private AnchorPane paneDatabaseName;
+    @FXML private AnchorPane paneDatabaseName;
 
-    @FXML
-    private TextField collectionName;
+    @FXML private TextField collectionName;
 
-    @FXML
-    private ChoiceBox loadFreq;
+    @FXML private ChoiceBox loadFreq;
 
-    @FXML
-    private ChoiceBox saveOption;
+    @FXML private ChoiceBox saveOption;
 
-    @FXML
-    private TextField nameOfSource;
+    @FXML private TextField nameOfSource;
 
-    @FXML
-    private TextArea sourceDescr;
+    @FXML private TextArea sourceDescr;
 
-    @FXML
-    private TextField databaseName;
+    @FXML private TextField databaseName;
 
-    @FXML
-    private TextField type;
+    @FXML private TextField type;
 
-    @FXML
-    private TextArea parsing;
+    @FXML private TextArea parsing;
 
-    @FXML
-    private TextArea httpRequestParams;
+    @FXML private TextArea httpRequestParams;
 
     public DataSource getCurrentConnection() {
         return currentConnection;
@@ -100,7 +90,7 @@ public class Step2Controller implements Initializable {
         arangoDbManager.createDocument(currentConnection.getTgt_db(),
                 currentConnection.getTgt_collection(),currentConnection);
 
-
+        prevStage.close();
     }
 
     @FXML
@@ -127,10 +117,12 @@ public class Step2Controller implements Initializable {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV", "*.csv"));
             fileChooser.setTitle("Choose file");
             source = new FileInFileSystem(currentConnection, fileChooser.showOpenDialog(prevStage).getAbsolutePath());
-        } catch (NullPointerException ex) {
-        } finally {
             parseFile(source);
         }
+        catch (NullPointerException ex) {}
+        catch (Exception ex){}
+
+
     }
 
     public void createRestSource() {
@@ -172,8 +164,7 @@ public class Step2Controller implements Initializable {
         currentConnection.setTgt_load_freq(loadFreq.getValue().toString());
     }
 
-    @FXML
-    public void onPreviousButton() throws IOException {
+    @FXML public void onPreviousButton() throws IOException{
         Stage stage = new Stage();
         stage.setTitle("Step 1");
         Pane myPane = FXMLLoader.load(getClass().getResource("step1.fxml"));
@@ -183,32 +174,31 @@ public class Step2Controller implements Initializable {
         stage.show();
     }
 
-    @FXML
-    public void onExitButton() {
+    @FXML public void onExitButton(){
         prevStage.close();
     }
 
-    private void parseFile(FileInFileSystem file) {
+    private void parseFile(FileInFileSystem file){
         List<String[]> ol = file.getRs();
         parsing.setWrapText(true);
         //parsing.setText(ol.toString());
         Iterator<String[]> iterator = ol.iterator();
-        while (iterator.hasNext()) {
+        while (iterator.hasNext()){
             String joinedString = Arrays.toString(iterator.next());
             parsing.appendText("\n" + joinedString);
         }
     }
 
-    private void parseRest(Rest rest) {
+    private void parseRest(Rest rest){
 
     }
 
-    private List<DsParams> parseHttpRequestParams() {
+    private List<DsParams> parseHttpRequestParams(){
 
         List<DsParams> dsParams = new ArrayList<>();
         ObservableList ol = httpRequestParams.getParagraphs();
         Iterator<CharSequence> iterator = ol.iterator();
-        while (iterator.hasNext()) {
+        while (iterator.hasNext()){
             String temp = iterator.next().toString();
             String[] seq = temp.split("=");
             DsParams ds = new DsParams(seq[0], seq[1], TypeDef.defType(seq[1]), false);
