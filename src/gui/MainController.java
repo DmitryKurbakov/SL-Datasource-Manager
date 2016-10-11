@@ -1,7 +1,10 @@
 package gui;
 
 import data_object.DataSource;
+import helpers.ArangoDbManager;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,15 +18,18 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 
 public class MainController extends Application implements Initializable {
 
     private static Stage primaryStage;
-    private ArrayList<DataSource> connections;
-
+    private List<DataSource> connections;
+    private ArangoDbManager arango;
     @FXML
     private AnchorPane main_pane;
 
@@ -81,6 +87,7 @@ public class MainController extends Application implements Initializable {
     }
 
     public MainController() {
+        arango = new ArangoDbManager();
     }
 
     @Override
@@ -91,6 +98,33 @@ public class MainController extends Application implements Initializable {
         colCreatedBy.setCellValueFactory(new PropertyValueFactory<Row, String>("createdBy"));
         colLastUpdate.setCellValueFactory(new PropertyValueFactory<Row, String>("lastUpdate"));
         colLastUpdatedBy.setCellValueFactory(new PropertyValueFactory<Row, String>("lastUpdatedBy"));
+
+        List<List<List<DataSource>>> ds = arango.readDatabases();
+        if (!ds.equals(null)) {
+            connections = new ArrayList<DataSource>();
+            for (int i = 0; i < ds.size(); i++) {
+                for (int j = 0; j < ds.get(i).size(); j++) {
+                    for (int k = 0; k < ds.get(i).get(j).size(); k++) {
+                        DataSource data = (DataSource) ds.get(i).get(j).get(k);
+                        if (data!=null) connections.add(data);
+                    }
+                }
+            }
+
+            ObservableList<Row> data = FXCollections.observableArrayList();
+            for (int i = 0; i < connections.size(); i++) {
+                Row row = new Row();
+                row.setName(connections.get(i).getName());
+                row.setType(connections.get(i).getDs_type());
+                row.setCreated(new SimpleDateFormat("dd.MM.yyyy hh:mm").format(connections.get(i).getCreated()));
+                row.setCreatedBy(connections.get(i).getCreated_by());
+                row.setLastUpdate(new SimpleDateFormat("dd.MM.yyyy hh:mm").format(connections.get(i).getUpdated()));
+                row.setLastUpdateBy(connections.get(i).getUpdated_by());
+                data.add(row);
+            }
+
+            tableView.setItems(data);
+        }
     }
 
     @FXML

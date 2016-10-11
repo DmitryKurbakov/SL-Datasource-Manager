@@ -9,6 +9,7 @@ import helpers.ArangoDbManager;
 import helpers.TypeDef;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +30,8 @@ import java.net.URL;
 import java.util.*;
 
 public class Step2Controller implements Initializable {
+
+    ArangoDbManager arangoDbManager;
 
     private static Stage prevStage;
     private static Stage primaryStage;
@@ -79,14 +82,13 @@ public class Step2Controller implements Initializable {
     }
 
     public Step2Controller() {
-
+        arangoDbManager = new ArangoDbManager();
     }
 
     public void onSaveButton() throws Exception {
         setAtributes();
-        ArangoDbManager arangoDbManager = new ArangoDbManager(currentConnection.getTgt_db(),
-                currentConnection.getTgt_collection());
-        arangoDbManager.createDocument(currentConnection);
+        arangoDbManager.createDocument(currentConnection.getTgt_db(),
+                currentConnection.getTgt_collection(),currentConnection);
     }
 
     @FXML
