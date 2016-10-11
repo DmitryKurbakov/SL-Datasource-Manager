@@ -3,6 +3,7 @@ package gui;
 import com.arangodb.util.StringUtils;
 import data_object.DataSource;
 import data_object.FileDS;
+import data_object.RestDs;
 import helpers.ArangoDbManager;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -78,6 +79,9 @@ public class Step2Controller implements Initializable {
     }
 
     public void onSaveButton() throws Exception {
+
+        setAtributes();
+
         ArangoDbManager arangoDbManager = new ArangoDbManager(currentConnection.getTgt_db(),
                 currentConnection.getTgt_collection());
         arangoDbManager.createDocument(currentConnection);
@@ -97,7 +101,6 @@ public class Step2Controller implements Initializable {
                 createJDBCSource();
                 break;
         }
-        setAtributes();
     }
 
     public void createFileSource() {
@@ -115,6 +118,8 @@ public class Step2Controller implements Initializable {
     }
 
     public void createRestSource() {
+
+//        currentConnection.setRest_ds(new RestDs());
         Rest rest = new Rest(currentConnection.getRest_ds());
         String result = rest.testConnection();
     }
