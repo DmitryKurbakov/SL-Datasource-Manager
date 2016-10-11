@@ -11,6 +11,14 @@ import java.net.URLEncoder;
 
 public class Rest {
 
+    public RestDs getRestDs() {
+        return restDs;
+    }
+
+    public void setRestDs(RestDs restDs) {
+        this.restDs = restDs;
+    }
+
     private RestDs restDs;
 
     public Rest(RestDs restDs) {

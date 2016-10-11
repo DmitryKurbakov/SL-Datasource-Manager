@@ -2,9 +2,11 @@ package gui;
 
 import com.arangodb.util.StringUtils;
 import data_object.DataSource;
+import data_object.DsParams;
 import data_object.FileDS;
 import data_object.RestDs;
 import helpers.ArangoDbManager;
+import helpers.TypeDef;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -53,6 +55,8 @@ public class Step2Controller implements Initializable {
 
     @FXML private TextArea parsing;
 
+    @FXML private TextArea httpRequestParams;
+
     public DataSource getCurrentConnection() {
         return currentConnection;
     }
@@ -79,9 +83,7 @@ public class Step2Controller implements Initializable {
     }
 
     public void onSaveButton() throws Exception {
-
         setAtributes();
-
         ArangoDbManager arangoDbManager = new ArangoDbManager(currentConnection.getTgt_db(),
                 currentConnection.getTgt_collection());
         arangoDbManager.createDocument(currentConnection);
@@ -101,6 +103,7 @@ public class Step2Controller implements Initializable {
                 createJDBCSource();
                 break;
         }
+        setAtributes();
     }
 
     public void createFileSource() {
@@ -118,8 +121,6 @@ public class Step2Controller implements Initializable {
     }
 
     public void createRestSource() {
-
-//        currentConnection.setRest_ds(new RestDs());
         Rest rest = new Rest(currentConnection.getRest_ds());
         String result = rest.testConnection();
     }
@@ -129,18 +130,22 @@ public class Step2Controller implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+
+        paneCollectionName.setVisible(false);
+        paneDatabaseName.setVisible(false);
+
         saveOption.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 
                 switch (saveOption.getValue().toString()) {
                     case "Save to disc":
-                        paneCollectionName.setVisible(false);
-                        paneDatabaseName.setVisible(false);
-                        break;
-                    case "Save to database":
                         paneCollectionName.setVisible(true);
                         paneDatabaseName.setVisible(true);
+                        break;
+                    case "Save to database":
+                        paneCollectionName.setVisible(false);
+                        paneDatabaseName.setVisible(false);
                 }
             }
         });
@@ -180,6 +185,21 @@ public class Step2Controller implements Initializable {
 
     private void parseRest(Rest rest){
 
+    }
+
+    private List<DsParams> parseHttpRequestParams(){
+
+        List<DsParams> dsParams = new ArrayList<>();
+        ObservableList ol = httpRequestParams.getParagraphs();
+        Iterator<CharSequence> iterator = ol.iterator();
+        while (iterator.hasNext()){
+            String temp = iterator.next().toString();
+            String[] seq = temp.split("=");
+            DsParams ds = new DsParams(seq[0], seq[1], TypeDef.defType(seq[1]), false);
+            dsParams.add(ds);
+        }
+
+        return dsParams;
     }
 
 }

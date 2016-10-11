@@ -16,17 +16,17 @@ public class Main extends Application {
 
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("main_form.fxml"));
+            root = FXMLLoader.load(getClass().getResource("autorization.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        Pane myPane = FXMLLoader.load(getClass().getResource("main_form.fxml"));
+        Pane myPane = FXMLLoader.load(getClass().getResource("autorization.fxml"));
         Scene scene = new Scene(myPane);
 
 
 
-        primaryStage.setTitle("SL Datasource Manager");
+        //primaryStage.setTitle("SL Datasource Manager");
         primaryStage.setScene(scene);
         primaryStage.centerOnScreen();
         primaryStage.show();
