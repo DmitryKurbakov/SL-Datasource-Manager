@@ -3,6 +3,7 @@ package gui;
 import com.arangodb.util.StringUtils;
 import data_object.DataSource;
 import data_object.FileDS;
+import helpers.ArangoDbManager;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -77,7 +78,9 @@ public class Step2Controller implements Initializable {
     }
 
     public void onSaveButton() throws Exception {
-
+        ArangoDbManager arangoDbManager = new ArangoDbManager(currentConnection.getTgt_db(),
+                currentConnection.getTgt_collection());
+        arangoDbManager.createDocument(currentConnection);
     }
 
     @FXML
@@ -111,12 +114,9 @@ public class Step2Controller implements Initializable {
         }
     }
 
-
-    //ObservableList<StringProperty> v = (ObservableList<StringProperty>) source.testConnection();
-    //table_view.getItems().addAll(v);
-
     public void createRestSource() {
-//        Rest rest = new Rest()
+        Rest rest = new Rest(currentConnection.getRest_ds());
+        String result = rest.testConnection();
     }
 
     public void createJDBCSource() {

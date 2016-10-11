@@ -73,7 +73,8 @@ public class Step1Controller implements Initializable {
     public void initialize(URL arg0, ResourceBundle arg1) {
     }
 
-    @FXML public void onCancelButton(){
+    @FXML
+    public void onCancelButton() {
         prevStage.close();
     }
 

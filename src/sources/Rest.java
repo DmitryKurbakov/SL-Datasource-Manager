@@ -1,67 +1,24 @@
 package sources;
 
-import com.arangodb.ArangoConfigure;
-import com.arangodb.ArangoDriver;
-import com.arangodb.ArangoException;
-import com.arangodb.entity.BaseDocument;
-import com.arangodb.entity.CollectionEntity;
-import data_object.DataSource;
+import data_object.DsParams;
+import data_object.RestDs;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Rest {
 
-    DataSource source;
-    private String requestType;
-    private String url;
-    private HashMap<String, String> requestParams;
+    private RestDs restDs;
 
-    public Rest(String url, HashMap<String, String> requestParams, String requestType) {
-        this.url = url;
-        this.requestParams = requestParams;
-        this.requestType = requestType;
-    }
-
-    public DataSource getSource() {
-        return source;
-    }
-
-    public void setSource(DataSource source) {
-        this.source = source;
-    }
-
-    public String getRequestType() {
-        return requestType;
-    }
-
-    public void setRequestType(String requestType) {
-        this.requestType = requestType;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public HashMap<String, String> getRequestParams() {
-        return requestParams;
-    }
-
-    public void setRequestParams(HashMap<String, String> requestParams) {
-        this.requestParams = requestParams;
+    public Rest(RestDs restDs) {
+        this.restDs = restDs;
     }
 
     public String testConnection() {
-        switch (requestType) {
+        switch (restDs.getRest_base_url()) {
             case "GET":
                 return createGetRequest();
             case "POST":
@@ -71,7 +28,7 @@ public class Rest {
         }
     }
 
-    public String getResponse(HttpURLConnection conn) throws IOException {
+    private String getResponse(HttpURLConnection conn) throws IOException {
 
         int responseCode = conn.getResponseCode();
         String response = "";
@@ -87,13 +44,17 @@ public class Rest {
         return response;
     }
 
-    public String createGetRequest() {
+    private String createGetRequest() {
 
         URL requestUrl;
         String response = "";
 
         try {
-            requestUrl = new URL(url + "?" + getPostDataString());
+            if (restDs.getDs_params() == null) {
+                requestUrl = new URL(restDs.getRest_base_url());
+            } else {
+                requestUrl = new URL(restDs.getRest_base_url() + "?" + formatList2StringParams());
+            }
 
             HttpURLConnection conn = (HttpURLConnection) requestUrl.openConnection();
             conn.setReadTimeout(15000);
@@ -108,13 +69,13 @@ public class Rest {
         return response;
     }
 
-    public String createPostRequest() {
+    private String createPostRequest() {
 
         URL requestUrl;
         String response = "";
 
         try {
-            requestUrl = new URL(url);
+            requestUrl = new URL(restDs.getRest_base_url());
 
             HttpURLConnection conn = (HttpURLConnection) requestUrl.openConnection();
             conn.setReadTimeout(15000);
@@ -126,9 +87,11 @@ public class Rest {
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(
                     new OutputStreamWriter(os, "UTF-8"));
-            writer.write("{\n" +
-                    "\"profession\" : \"singer\"\n" +
-                    "}");
+            if (restDs.getDs_params() != null) {
+                writer.write(formatList2StringParams());
+            } else {
+                writer.write("");
+            }
 
             writer.flush();
             writer.close();
@@ -142,20 +105,20 @@ public class Rest {
         return response;
     }
 
-    private String getPostDataString() throws UnsupportedEncodingException {
+    private String formatList2StringParams() throws UnsupportedEncodingException {
 
         StringBuilder result = new StringBuilder();
         boolean first = true;
 
-        for (Map.Entry<String, String> entry : requestParams.entrySet()) {
+        for (DsParams dsParam : restDs.getDs_params()) {
             if (first)
                 first = false;
             else
                 result.append("&");
 
-            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+            result.append(URLEncoder.encode(dsParam.getParam_name(), "UTF-8"));
             result.append("=");
-            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+            result.append(URLEncoder.encode(dsParam.getParam_dvalue(), "UTF-8"));
         }
 
         return result.toString();

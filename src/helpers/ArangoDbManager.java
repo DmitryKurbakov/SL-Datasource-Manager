@@ -3,8 +3,6 @@ package helpers;
 import com.arangodb.ArangoConfigure;
 import com.arangodb.ArangoDriver;
 import com.arangodb.ArangoException;
-import com.arangodb.entity.BaseDocument;
-import com.arangodb.entity.DocumentEntity;
 import data_object.DataSource;
 
 /**
@@ -12,20 +10,21 @@ import data_object.DataSource;
  */
 public class ArangoDbManager {
 
-    final private String DATABASE = "integration";
-    final private String COLLECTION = "datasources";
-    final private int COLLECTION_ID = 308;
     final private String USER = "root";
     final private String PASSWORD = "zuwa45we";
+
+    private String collection;
+
     private ArangoConfigure configure;
     private ArangoDriver arangoDriver;
 
-    public ArangoDbManager() {
+    public ArangoDbManager(String database, String collection) {
 
+        this.collection = collection;
         this.configure = new ArangoConfigure();
         configure.setUser("root");
         configure.setPassword("zuwa45we");
-        configure.setDefaultDatabase("integration");
+        configure.setDefaultDatabase(database);
         configure.init();
         arangoDriver = new ArangoDriver(configure);
     }
@@ -33,7 +32,7 @@ public class ArangoDbManager {
     public boolean createDocument(DataSource dataSource) {
 
         try {
-            arangoDriver.createDocument(COLLECTION_ID, dataSource);
+            arangoDriver.createDocument(collection, dataSource);
             System.out.println("Document created");
             return true;
         } catch (ArangoException e) {
@@ -46,7 +45,7 @@ public class ArangoDbManager {
 
         DataSource dataSource = null;
         try {
-            dataSource = arangoDriver.getDocument(COLLECTION_ID, id, DataSource.class).getEntity();
+            dataSource = arangoDriver.getDocument(collection, id, DataSource.class).getEntity();
         } catch (ArangoException e) {
             System.out.println("Failed to get document. " + e.getMessage());
         }
@@ -56,7 +55,7 @@ public class ArangoDbManager {
     public boolean updateDocument(DataSource dataSource, int id) {
 
         try {
-            arangoDriver.updateDocument(arangoDriver.getDocument(COLLECTION_ID, id, DataSource.class)
+            arangoDriver.updateDocument(arangoDriver.getDocument(collection, id, DataSource.class)
                     .getDocumentHandle(), dataSource);
             return true;
         } catch (ArangoException e) {
@@ -68,7 +67,7 @@ public class ArangoDbManager {
     public boolean deleteDocument(int id) {
 
         try {
-            arangoDriver.deleteDocument(arangoDriver.getDocument(COLLECTION_ID, id, DataSource.class)
+            arangoDriver.deleteDocument(arangoDriver.getDocument(collection, id, DataSource.class)
                     .getDocumentHandle());
             return true;
         } catch (ArangoException e) {
