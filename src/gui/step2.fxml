@@ -16,7 +16,7 @@
       </AnchorPane>
       <AnchorPane fx:id="table" layoutY="39.0" prefHeight="404.0" prefWidth="499.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="39.0">
          <children>
-            <TabPane layoutX="3.0" prefHeight="435.0" prefWidth="499.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <TabPane layoutX="3.0" prefHeight="452.0" prefWidth="497.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
               <tabs>
                 <Tab text="Basic">
                      <content>
@@ -114,19 +114,19 @@
                            <children>
                               <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="255.0" prefWidth="663.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="274.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                                    <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="0.0" prefWidth="469.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                                        <children>
-                                          <ChoiceBox fx:id="chooseSaving" layoutY="-6.0" prefHeight="39.0" prefWidth="178.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <ChoiceBox fx:id="saveOption" layoutY="-6.0" prefHeight="39.0" prefWidth="178.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" value="Save to disc">
                                               <items>
                                                   <FXCollections fx:factory="observableArrayList">
-                                                      <String fx:value="Load to database" />
+                                                      <String fx:value="Save to database" />
                                                       <String fx:value="Save to disc" />
                                                   </FXCollections>
                                               </items>
                                           </ChoiceBox>
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane layoutX="14.0" layoutY="76.0" prefHeight="39.0" prefWidth="487.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="-4.0" AnchorPane.topAnchor="69.0">
+                                    <AnchorPane fx:id="paneDatabaseName" layoutX="14.0" layoutY="76.0" prefHeight="39.0" prefWidth="487.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="-4.0" AnchorPane.topAnchor="69.0">
                                        <children>
                                           <Label layoutY="-8.0" text="Database name" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="-8.0">
                                              <font>
@@ -138,7 +138,7 @@
                                              </font></TextField>
                                        </children>
                                     </AnchorPane>
-                                    <AnchorPane layoutX="14.0" layoutY="108.0" prefHeight="52.0" prefWidth="487.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="-4.0" AnchorPane.topAnchor="108.0">
+                                    <AnchorPane fx:id="paneCollectionName" layoutX="14.0" layoutY="108.0" prefHeight="52.0" prefWidth="487.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="-4.0" AnchorPane.topAnchor="108.0">
                                        <children>
                                           <Label text="Collection name" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                                              <font>

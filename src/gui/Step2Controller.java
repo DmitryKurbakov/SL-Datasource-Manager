@@ -1,7 +1,10 @@
 package gui;
 
+import com.arangodb.util.StringUtils;
 import data_object.DataSource;
 import data_object.FileDS;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -18,7 +22,7 @@ import sources.Rest;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Step2Controller implements Initializable {
 
@@ -27,9 +31,15 @@ public class Step2Controller implements Initializable {
 
     private DataSource currentConnection;
 
+    @FXML private AnchorPane paneCollectionName;
+
+    @FXML private AnchorPane paneDatabaseName;
+
     @FXML private TextField collectionName;
 
     @FXML private ChoiceBox loadFreq;
+
+    @FXML private ChoiceBox saveOption;
 
     @FXML private TextField nameOfSource;
 
@@ -63,6 +73,7 @@ public class Step2Controller implements Initializable {
     }
 
     public Step2Controller() {
+
     }
 
     public void onSaveButton() throws Exception {
@@ -113,6 +124,21 @@ public class Step2Controller implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        saveOption.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+
+                switch (saveOption.getValue().toString()) {
+                    case "Save to disc":
+                        paneCollectionName.setVisible(false);
+                        paneDatabaseName.setVisible(false);
+                        break;
+                    case "Save to database":
+                        paneCollectionName.setVisible(true);
+                        paneDatabaseName.setVisible(true);
+                }
+            }
+        });
     }
 
     private void setAtributes() {
@@ -137,9 +163,18 @@ public class Step2Controller implements Initializable {
     }
 
     private void parseFile(FileInFileSystem file){
-        ObservableList ol = file.getRowset();
+        List<String[]> ol = file.getRs();
         parsing.setWrapText(true);
-        parsing.setText(ol.toString());
+        //parsing.setText(ol.toString());
+        Iterator<String[]> iterator = ol.iterator();
+        while (iterator.hasNext()){
+            String joinedString = Arrays.toString(iterator.next());
+            parsing.appendText("\n" + joinedString);
+        }
+    }
+
+    private void parseRest(Rest rest){
+
     }
 
 }

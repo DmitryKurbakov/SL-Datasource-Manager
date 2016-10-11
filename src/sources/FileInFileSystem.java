@@ -22,9 +22,14 @@ public class FileInFileSystem {
     DataSource source;
     String filepath;
     Boolean hasHeader;
+    List<String[]> rs;
 
     public ObservableList getRowset(){
         return this.rowset;
+    }
+
+    public List<String[]> getRs(){
+        return this.rs;
     }
 
     public DataSource getSource() {
@@ -47,7 +52,7 @@ public class FileInFileSystem {
         try {
             CSVReader reader = new CSVReader(new FileReader(filepath));
 
-            List<String[]> rs = reader.readAll();
+            this.rs = reader.readAll();
             rowset = FXCollections.observableArrayList(rs);
 
             hasHeader = isExistHeader(rs);
