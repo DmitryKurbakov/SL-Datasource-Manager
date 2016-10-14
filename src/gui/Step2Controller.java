@@ -23,6 +23,8 @@ import javafx.stage.Stage;
 import sources.FileInFileSystem;
 import sources.Rest;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -46,39 +48,59 @@ public class Step2Controller implements Initializable {
 
     private DataSource currentConnection;
 
-    @FXML private AnchorPane step2_pane;
+    @FXML
+    private AnchorPane step2_pane;
 
-    @FXML private AnchorPane paneCollectionName;
+    @FXML
+    private AnchorPane paneCollectionName;
 
-    @FXML private AnchorPane paneDatabaseName;
+    @FXML
+    private AnchorPane paneDatabaseName;
 
-    @FXML private AnchorPane optionsPane;
+    @FXML
+    private AnchorPane optionsPane;
 
-    @FXML private AnchorPane parsingArea;
+    @FXML
+    private AnchorPane parsingArea;
 
-    @FXML private Tab autorizationTab;
+    @FXML
+    private Tab autorizationTab;
 
-    @FXML private TextField collectionName;
+    @FXML
+    private TextField collectionName;
 
-    @FXML private ChoiceBox loadFreq;
+    @FXML
+    private ChoiceBox loadFreq;
 
-    @FXML private ChoiceBox saveOption;
+    @FXML
+    private ChoiceBox saveOption;
 
-    @FXML private TextField nameOfSource;
+    @FXML
+    private TextField nameOfSource;
 
-    @FXML private TextArea sourceDescr;
+    @FXML
+    private TextArea sourceDescr;
 
-    @FXML private TextField databaseName;
+    @FXML
+    private TextField databaseName;
 
-    @FXML private TextField type;
+    @FXML
+    private TextField type;
 
-    @FXML private TextArea parsing;
+    @FXML
+    private TextArea parsing;
 
-    @FXML private TextArea httpRequestParams;
+    @FXML
+    private TextArea httpRequestParams;
 
-    @FXML private TextField filePathTextField;
+    @FXML
+    private TextField filePathTextField;
 
-    @FXML private Label labelBrowse;
+    @FXML
+    private Label labelBrowse;
+
+    @FXML
+    private Button saveButton;
 
     public DataSource getCurrentConnection() {
         return currentConnection;
@@ -147,12 +169,20 @@ public class Step2Controller implements Initializable {
     }
 
     public void onSaveButton() throws Exception {
+        if (nameOfSource.getText().equals("")){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You should choose filename");
+
+            alert.showAndWait();
+            saveButton.setDisable(true);
+            return;
+        }
+
         setAtributes();
-        if(!isUpdate) {
+        if (!isUpdate) {
             arangoDbManager.createDocument(currentConnection.getTgt_db(),
                     currentConnection.getTgt_collection(), currentConnection);
-        }
-        else {
+        } else {
             currentConnection.setUpdated_by(ArangoDbManager.User);
             arangoDbManager.updateDocument(currentConnection.getTgt_db(), currentConnection.getTgt_collection(),
                     currentConnection, currentConnection.getKey());
@@ -167,8 +197,8 @@ public class Step2Controller implements Initializable {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV", "*.csv"));
             fileChooser.setTitle("Choose file");
             pathToFile = fileChooser.showOpenDialog(prevStage).getAbsolutePath();
+        } catch (NullPointerException ex) {
         }
-        catch (NullPointerException ex){}
         filePathTextField.setText(pathToFile);
     }
 
@@ -179,12 +209,28 @@ public class Step2Controller implements Initializable {
         try {
             source = new FileInFileSystem(currentConnection, pathToFile);
             parseFile(source);
-            parseFile(source);
+            saveButton.setDisable(false);
+        } catch (NullPointerException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You should choose file");
+
+            alert.showAndWait();
+            saveButton.setDisable(true);
+            return;
         }
-        catch (NullPointerException ex) {}
     }
 
     public void createRestSource() {
+        saveButton.setDisable(false);
+        if (filePathTextField.getText().equals("")){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You should enter valid URL");
+
+            alert.showAndWait();
+            saveButton.setDisable(true);
+            return;
+        }
+
         currentConnection.setRest_ds(new RestDs("url", parseHttpRequestParams(), "type"));
         Rest rest = new Rest(currentConnection.getRest_ds());
         String result = rest.testConnection("GET");
@@ -214,7 +260,10 @@ public class Step2Controller implements Initializable {
 
     }
 
-    @FXML public void onLoadButton(){
+    @FXML
+    public void onLoadButton() {
+
+        saveButton.setDisable(false);
 
         switch (currentConnection.getDs_type()) {
             case "File":
@@ -235,7 +284,8 @@ public class Step2Controller implements Initializable {
         currentConnection.setTgt_load_freq(loadFreq.getValue().toString());
     }
 
-    @FXML public void onPreviousButton() throws IOException{
+    @FXML
+    public void onPreviousButton() throws IOException {
         Stage stage = new Stage();
         stage.setTitle("Step 1");
         Pane myPane = FXMLLoader.load(getClass().getResource("step1.fxml"));
@@ -245,31 +295,32 @@ public class Step2Controller implements Initializable {
         stage.show();
     }
 
-    @FXML public void onExitButton(){
+    @FXML
+    public void onExitButton() {
         prevStage.close();
     }
 
-    private void parseFile(FileInFileSystem file){
+    private void parseFile(FileInFileSystem file) {
         List<String[]> ol = file.getRs();
         parsing.setWrapText(true);
         //parsing.setText(ol.toString());
         Iterator<String[]> iterator = ol.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             String joinedString = Arrays.toString(iterator.next());
             parsing.appendText("\n" + joinedString);
         }
     }
 
-    private void parseRest(Rest rest){
+    private void parseRest(Rest rest) {
 
     }
 
-    private List<DsParams> parseHttpRequestParams(){
+    private List<DsParams> parseHttpRequestParams() {
 
         List<DsParams> dsParams = new ArrayList<>();
         ObservableList ol = httpRequestParams.getParagraphs();
         Iterator<CharSequence> iterator = ol.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             String temp = iterator.next().toString();
             String[] seq = temp.split("=");
             DsParams ds = new DsParams(seq[0], seq[1], TypeDef.defType(seq[1]), false);
@@ -279,7 +330,7 @@ public class Step2Controller implements Initializable {
         return dsParams;
     }
 
-    public void hidePane(){
+    public void hidePane() {
         labelBrowse.setText("Choose file in filesystem");
         optionsPane.setVisible(false);
         autorizationTab.setDisable(true);
@@ -288,4 +339,25 @@ public class Step2Controller implements Initializable {
         parsingArea.setPrefHeight(240);
     }
 
+    private void saveFile() {
+        FileChooser fileChooser = new FileChooser();
+
+        //Set extension filter
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON (*.json)", "*.json");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        //Show save file dialog
+        File file = fileChooser.showSaveDialog(prevStage);
+
+        if (file != null) {
+            //saveFile(Santa_Claus_Is_Coming_To_Town, file);
+        }
+    }
+
+    private void saveFile(String content, File file) {
+
+    }
+
 }
+
+

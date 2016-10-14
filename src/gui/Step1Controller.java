@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
@@ -50,6 +51,14 @@ public class Step1Controller implements Initializable {
 
 
     public void onNextButton(ActionEvent event) throws Exception {
+
+        if (name.getText().equals("")){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("You should enter name of datasource");
+
+            alert.showAndWait();
+            return;
+        }
 
         DataSource newConnection = new DataSource(ds_type.getValue().toString(), name.getText(), ArangoDbManager.User);
 
