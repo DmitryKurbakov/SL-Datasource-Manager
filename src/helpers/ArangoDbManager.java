@@ -10,9 +10,6 @@ import data_object.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by budae on 10.10.2016.
- */
 public class ArangoDbManager {
 
     static public String User;
@@ -59,7 +56,7 @@ public class ArangoDbManager {
 
         arangoDriver.setDefaultDatabase(database);
         try {
-            arangoDriver.updateDocument(arangoDriver.getDocument(collection, id, DataSource.class)
+            arangoDriver.updateDocument(arangoDriver.getDocument(collection, id.split("/")[1], DataSource.class)
                     .getDocumentHandle(), dataSource);
             return true;
         } catch (ArangoException e) {
@@ -72,7 +69,7 @@ public class ArangoDbManager {
 
         arangoDriver.setDefaultDatabase(database);
         try {
-            arangoDriver.deleteDocument(arangoDriver.getDocument(collection, id, DataSource.class)
+            arangoDriver.deleteDocument(arangoDriver.getDocument(collection, id.split("/")[1], DataSource.class)
                     .getDocumentHandle());
             return true;
         } catch (ArangoException e) {

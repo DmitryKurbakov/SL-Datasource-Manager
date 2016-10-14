@@ -5,59 +5,69 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="main_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="637.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
-   <children>
-      <MenuBar prefHeight="7.0" prefWidth="571.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem onAction="#onClose" mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="About">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-      <AnchorPane layoutY="39.0" prefHeight="19.0" prefWidth="259.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="39.0">
-         <children>
-            <Button fx:id="create_button" layoutY="3.0" mnemonicParsing="false" onAction="#onCreateButton" text="Create" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <font>
-                  <Font size="9.0" />
-               </font>
-            </Button>
-            <Button onAction="#onEditButton" layoutX="38.0" layoutY="3.0" mnemonicParsing="false" text="Edit" AnchorPane.leftAnchor="38.0" AnchorPane.topAnchor="0.0">
-               <font>
-                  <Font size="9.0" />
-               </font>
-            </Button>
-            <Button layoutX="66.0" layoutY="3.0" mnemonicParsing="false" text="Delete" AnchorPane.topAnchor="0.0">
-               <font>
-                  <Font size="9.0" />
-               </font>
-            </Button>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutY="62.0" prefHeight="360.0" prefWidth="571.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="57.0">
-         <children>
-            <TableView fx:id="tableView" layoutX="14.0" layoutY="14.0" prefHeight="281.0" prefWidth="617.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
-               <columns>
-                  <TableColumn fx:id="colName"  prefWidth="75.0" text="Name" />
-                  <TableColumn fx:id="colType" prefWidth="75.0" text="Type" />
-                  <TableColumn fx:id="colCreated" prefWidth="75.0" text="Created" />
-                  <TableColumn fx:id="colCreatedBy" prefWidth="109.0" text="Created by" />
-                  <TableColumn fx:id="colLastUpdate" prefWidth="110.0" text="Last update" />
-                  <TableColumn fx:id="colLastUpdatedBy" minWidth="6.0" prefWidth="166.0" text="Last updated by" />
-               </columns>
-            </TableView>
-         </children>
-      </AnchorPane>
-      <Label layoutX="12.0" layoutY="366.0" text="Console:" AnchorPane.leftAnchor="10.0">
-         <font>
-            <Font size="9.0" />
-         </font></Label>
-      <TextArea layoutX="10.0" layoutY="379.0" prefHeight="138.0" prefWidth="1004.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="379.0" />
-   </children>
+<AnchorPane fx:id="main_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="510.0" prefWidth="637.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="gui.MainController">
+    <children>
+        <MenuBar prefHeight="7.0" prefWidth="571.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                 AnchorPane.topAnchor="0.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem onAction="#onClose" mnemonicParsing="false" text="Close"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="About">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <AnchorPane layoutY="39.0" prefHeight="19.0" prefWidth="259.0" AnchorPane.leftAnchor="10.0"
+                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="39.0">
+            <children>
+                <Button fx:id="create_button" layoutY="3.0" mnemonicParsing="false" onAction="#onCreateButton"
+                        text="Create" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <font>
+                        <Font size="9.0"/>
+                    </font>
+                </Button>
+                <Button layoutX="38.0" onAction="#onEditButton" layoutY="3.0" mnemonicParsing="false" text="Edit"
+                        AnchorPane.leftAnchor="38.0" AnchorPane.topAnchor="0.0">
+                    <font>
+                        <Font size="9.0"/>
+                    </font>
+                </Button>
+                <Button layoutX="66.0" layoutY="3.0" mnemonicParsing="false" text="Delete" AnchorPane.topAnchor="0.0">
+                    <font>
+                        <Font size="9.0"/>
+                    </font>
+                </Button>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutY="62.0" prefHeight="360.0" prefWidth="571.0" AnchorPane.bottomAnchor="150.0"
+                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="57.0">
+            <children>
+                <TableView fx:id="tableView" layoutX="14.0" layoutY="14.0" prefHeight="281.0" prefWidth="617.0"
+                           AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+                    <columns>
+                        <TableColumn fx:id="colName" prefWidth="75.0" text="Name"/>
+                        <TableColumn fx:id="colType" prefWidth="75.0" text="Type"/>
+                        <TableColumn fx:id="colCreated" prefWidth="75.0" text="Created"/>
+                        <TableColumn fx:id="colCreatedBy" prefWidth="109.0" text="Created by"/>
+                        <TableColumn fx:id="colLastUpdate" prefWidth="110.0" text="Last update"/>
+                        <TableColumn fx:id="colLastUpdatedBy" minWidth="6.0" prefWidth="166.0" text="Last updated by"/>
+                    </columns>
+                </TableView>
+            </children>
+        </AnchorPane>
+        <Label layoutX="12.0" layoutY="366.0" text="Console:" AnchorPane.leftAnchor="10.0">
+            <font>
+                <Font size="9.0"/>
+            </font>
+        </Label>
+        <TextArea layoutX="10.0" layoutY="379.0" prefHeight="138.0" prefWidth="1004.0" AnchorPane.bottomAnchor="10.0"
+                  AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="379.0"/>
+    </children>
 </AnchorPane>

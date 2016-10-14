@@ -15,7 +15,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -90,6 +92,47 @@ public class Step2Controller implements Initializable {
         this.type.setText(type);
     }
 
+    public void setCollectionName(String collectionName) {
+        this.collectionName.setText(collectionName);
+    }
+
+    public void setLoadFreq(String loadFreq) {
+        switch (loadFreq) {
+            case "Online":
+                this.loadFreq.setValue("Online");
+                break;
+            case "Daily":
+                this.loadFreq.setValue("Online");
+                break;
+            case "Weekly":
+                this.loadFreq.setValue("Online");
+                break;
+            case "Monthly":
+                this.loadFreq.setValue("Online");
+                break;
+        }
+    }
+
+    public void setSaveOption(ChoiceBox saveOption) {
+        this.saveOption = saveOption;
+    }
+
+    public void setSourceDescr(String sourceDescr) {
+        this.sourceDescr.setText(sourceDescr);
+    }
+
+    public void setDatabaseName(String databaseName) {
+        this.databaseName.setText(databaseName);
+    }
+
+    public void setHttpRequestParams(TextArea httpRequestParams) {
+        this.httpRequestParams = httpRequestParams;
+    }
+
+    public void setUrlField(String urlField) {
+        this.urlField.setText(urlField);
+    }
+
     public Step2Controller() {
         arangoDbManager = new ArangoDbManager();
     }
@@ -105,6 +148,18 @@ public class Step2Controller implements Initializable {
     @FXML
     public void onBrowseButton() {
 
+        switch (currentConnection.getDs_type()) {
+            case "File":
+                createFileSource();
+                break;
+            case "REST":
+                createRestSource();
+                break;
+        }
+        setAtributes();
+    }
+
+    public void createFileSource() {
         FileInFileSystem source = null;
         try {
             FileChooser fileChooser = new FileChooser();
@@ -116,7 +171,6 @@ public class Step2Controller implements Initializable {
         catch (NullPointerException ex) {}
         catch (Exception ex){}
 
-    }
 
     public void createFileSource() {
         FileInFileSystem source = null;

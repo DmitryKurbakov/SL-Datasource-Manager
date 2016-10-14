@@ -25,8 +25,8 @@ public class Rest {
         this.restDs = restDs;
     }
 
-    public String testConnection() {
-        switch (restDs.getRest_base_url()) {
+    public String testConnection(String requestType) {
+        switch (requestType) {
             case "GET":
                 return createGetRequest();
             case "POST":

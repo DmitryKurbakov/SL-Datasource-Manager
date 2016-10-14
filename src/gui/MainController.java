@@ -78,11 +78,24 @@ public class MainController extends Application implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("step2.fxml"));
         Pane pane = loader.load();
         Step2Controller sc = loader.getController();
-        sc.setCurrentConnection(connections.get(0));
+
+        int selectedRowIndex = tableView.getSelectionModel().getSelectedIndex();
+
+        DataSource selectedItem = connections.get(selectedRowIndex);
+
         sc.setPrevStage(primaryStage);
+        sc.setCurrentConnection(selectedItem);
+        sc.setNameOfSource(selectedItem.getName());
+        sc.setType(selectedItem.getDs_type());
+        sc.setDatabaseName(selectedItem.getTgt_db());
+        sc.setCollectionName(selectedItem.getTgt_collection());
+        sc.setLoadFreq(selectedItem.getTgt_load_freq());
+        sc.setSourceDescr(selectedItem.getDesc());
+
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
         Stage st = (Stage) main_pane.getScene().getWindow();
+
         primaryStage.show();
     }
 
@@ -92,6 +105,7 @@ public class MainController extends Application implements Initializable {
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+
         colName.setCellValueFactory(new PropertyValueFactory<Row, String>("name"));
         colType.setCellValueFactory(new PropertyValueFactory<Row, String>("type"));
         colCreated.setCellValueFactory(new PropertyValueFactory<Row, String>("created"));

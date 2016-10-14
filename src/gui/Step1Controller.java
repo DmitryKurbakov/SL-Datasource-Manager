@@ -63,8 +63,8 @@ public class Step1Controller implements Initializable {
         Stage st = (Stage) step1_pane.getScene().getWindow();
         st.close();
 
-        sc.setType(ds_type.getValue().toString());
         sc.setNameOfSource(name.getText());
+        sc.setType(ds_type.getValue().toString());
         sc.setCurrentConnection(newConnection);
 
         if (ds_type.getValue().equals("File")) sc.hidePane();
