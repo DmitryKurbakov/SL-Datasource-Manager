@@ -45,6 +45,8 @@ public class Step2Controller implements Initializable {
 
     @FXML private AnchorPane optionsPane;
 
+    @FXML private AnchorPane parsingArea;
+
     @FXML private Tab autorizationTab;
 
     @FXML private TextField collectionName;
@@ -273,6 +275,8 @@ public class Step2Controller implements Initializable {
         optionsPane.setVisible(false);
         autorizationTab.setDisable(true);
         step2_pane.setPrefHeight(370);
+        parsing.setPrefHeight(240);
+        parsingArea.setPrefHeight(240);
     }
 
 }

@@ -19,10 +19,7 @@ import javafx.event.ActionEvent;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 
 public class MainController extends Application implements Initializable {
@@ -96,6 +93,7 @@ public class MainController extends Application implements Initializable {
         primaryStage.setScene(scene);
         Stage st = (Stage) main_pane.getScene().getWindow();
 
+        if (connections.get(selectedRowIndex).getDs_type().equals("File")) sc.hidePane();
         primaryStage.show();
     }
 
@@ -142,7 +140,36 @@ public class MainController extends Application implements Initializable {
     }
 
     @FXML
+    public void onSynchronizeButton(){
+
+    }
+
+    @FXML
     public void onClose() {
         System.exit(0);
     }
+
+    @FXML
+    public void onDeleteButton(){
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete");
+        alert.setHeaderText("Are you really want to delete this item?");
+        alert.setContentText("Choose your option.");
+
+        ButtonType yesButton = new ButtonType("Yes");
+        ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(yesButton, noButton);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == yesButton){
+
+           }
+        else if (result.get() == noButton) {
+
+        }
+    }
+
 }
