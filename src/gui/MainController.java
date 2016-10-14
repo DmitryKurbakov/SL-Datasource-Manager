@@ -88,6 +88,7 @@ public class MainController extends Application implements Initializable {
         Stage st = (Stage) main_pane.getScene().getWindow();
 
         if (connections.get(selectedRowIndex).getDs_type().equals("File")) sc.hidePane();
+        sc.setSaveButtonDisable(false);
         primaryStage.show();
     }
 

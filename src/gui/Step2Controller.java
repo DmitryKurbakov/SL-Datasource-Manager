@@ -24,6 +24,7 @@ import sources.FileInFileSystem;
 import sources.Rest;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -32,11 +33,16 @@ public class Step2Controller implements Initializable {
 
 
     private static Stage prevStage;
-    private ArangoDbManager arangoDbManager;
+    private static Stage primaryStage;
+    ArangoDbManager arangoDbManager;
     private String pathToFile;
     private boolean isUpdate;
 
-    void setUpdate(boolean update) {
+    public boolean isUpdate() {
+        return isUpdate;
+    }
+
+    public void setUpdate(boolean update) {
         isUpdate = update;
     }
 
@@ -346,6 +352,11 @@ public class Step2Controller implements Initializable {
     private void saveFile(String content, File file) {
 
     }
+
+    public void setSaveButtonDisable(Boolean flag){
+        saveButton.setDisable(flag);
+    }
+
 }
 
 
