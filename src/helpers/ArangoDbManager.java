@@ -10,6 +10,7 @@ import data_object.DataSource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ArangoDbManager {
 
@@ -26,6 +27,16 @@ public class ArangoDbManager {
         configure.setPassword(Password);
         configure.init();
         arangoDriver = new ArangoDriver(configure);
+    }
+
+    public boolean verifyUser() {
+        try {
+            arangoDriver.getVersion();
+            return true;
+        } catch (ArangoException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean createDocument(String database, String collection, DataSource dataSource) {
@@ -71,11 +82,11 @@ public class ArangoDbManager {
         }
     }
 
-    public boolean deleteDocument(String database, String collection, String id) {
+    public boolean deleteDocument(String database, String collection, String key) {
 
         arangoDriver.setDefaultDatabase(database);
         try {
-            arangoDriver.deleteDocument(arangoDriver.getDocument(collection, id.split("/")[1], DataSource.class)
+            arangoDriver.deleteDocument(arangoDriver.getDocument(collection, key, DataSource.class)
                     .getDocumentHandle());
             return true;
         } catch (ArangoException e) {
@@ -131,7 +142,10 @@ public class ArangoDbManager {
             List<String> documents = arangoDriver.getDocuments(collection);
             for (String documentName : documents) {
                 DataSource r = readDocument(database, collection, documentName);
-                if (r != null) {
+                if (r != null && r.getName() != null && !Objects.equals(r.getName(), "") && r.getDs_type() != null &&
+                        !Objects.equals(r.getDs_type(), "") && r.getKey() != null && !Objects.equals(r.getKey(), "") &&
+                        r.getTgt_db() != null && !Objects.equals(r.getTgt_db(), "") && r.getTgt_collection() != null &&
+                        !Objects.equals(r.getTgt_collection(), "")) {
                     allDocuments.add(r);
                 }
             }

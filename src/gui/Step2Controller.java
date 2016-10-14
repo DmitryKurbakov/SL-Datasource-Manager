@@ -24,7 +24,6 @@ import sources.FileInFileSystem;
 import sources.Rest;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -33,16 +32,11 @@ public class Step2Controller implements Initializable {
 
 
     private static Stage prevStage;
-    private static Stage primaryStage;
-    ArangoDbManager arangoDbManager;
+    private ArangoDbManager arangoDbManager;
     private String pathToFile;
     private boolean isUpdate;
 
-    public boolean isUpdate() {
-        return isUpdate;
-    }
-
-    public void setUpdate(boolean update) {
+    void setUpdate(boolean update) {
         isUpdate = update;
     }
 
@@ -106,28 +100,27 @@ public class Step2Controller implements Initializable {
         return currentConnection;
     }
 
-    public void setCurrentConnection(DataSource currentConnection) {
+    void setCurrentConnection(DataSource currentConnection) {
         this.currentConnection = currentConnection;
     }
 
-
-    public void setPrevStage(Stage stage) {
-        this.prevStage = stage;
+    void setPrevStage(Stage prevStage) {
+        Step2Controller.prevStage = prevStage;
     }
 
-    public void setNameOfSource(String nameOfSource) {
+    void setNameOfSource(String nameOfSource) {
         this.nameOfSource.setText(nameOfSource);
     }
 
-    public void setType(String type) {
+    void setType(String type) {
         this.type.setText(type);
     }
 
-    public void setCollectionName(String collectionName) {
+    void setCollectionName(String collectionName) {
         this.collectionName.setText(collectionName);
     }
 
-    public void setLoadFreq(String loadFreq) {
+    void setLoadFreq(String loadFreq) {
         switch (loadFreq) {
             case "Online":
                 this.loadFreq.setValue("Online");
@@ -148,11 +141,11 @@ public class Step2Controller implements Initializable {
         this.saveOption = saveOption;
     }
 
-    public void setSourceDescr(String sourceDescr) {
+    void setSourceDescr(String sourceDescr) {
         this.sourceDescr.setText(sourceDescr);
     }
 
-    public void setDatabaseName(String databaseName) {
+    void setDatabaseName(String databaseName) {
         this.databaseName.setText(databaseName);
     }
 
@@ -169,7 +162,8 @@ public class Step2Controller implements Initializable {
     }
 
     public void onSaveButton() throws Exception {
-        if (nameOfSource.getText().equals("")){
+
+        if (nameOfSource.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("You should choose filename");
 
@@ -179,6 +173,7 @@ public class Step2Controller implements Initializable {
         }
 
         setAtributes();
+
         if (!isUpdate) {
             arangoDbManager.createDocument(currentConnection.getTgt_db(),
                     currentConnection.getTgt_collection(), currentConnection);
@@ -197,13 +192,13 @@ public class Step2Controller implements Initializable {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV", "*.csv"));
             fileChooser.setTitle("Choose file");
             pathToFile = fileChooser.showOpenDialog(prevStage).getAbsolutePath();
-        } catch (NullPointerException ex) {
+        } catch (NullPointerException ignored) {
         }
         filePathTextField.setText(pathToFile);
     }
 
 
-    public void createFileSource() {
+    private void createFileSource() {
         FileInFileSystem source = null;
         currentConnection.setFile_ds(new FileDS());
         try {
@@ -222,7 +217,7 @@ public class Step2Controller implements Initializable {
 
     public void createRestSource() {
         saveButton.setDisable(false);
-        if (filePathTextField.getText().equals("")){
+        if (filePathTextField.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("You should enter valid URL");
 
@@ -242,19 +237,16 @@ public class Step2Controller implements Initializable {
         paneCollectionName.setVisible(false);
         paneDatabaseName.setVisible(false);
 
-        saveOption.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+        saveOption.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
 
-                switch (saveOption.getValue().toString()) {
-                    case "Save to disc":
-                        paneCollectionName.setVisible(true);
-                        paneDatabaseName.setVisible(true);
-                        break;
-                    case "Save to database":
-                        paneCollectionName.setVisible(false);
-                        paneDatabaseName.setVisible(false);
-                }
+            switch (saveOption.getValue().toString()) {
+                case "Save to disc":
+                    paneCollectionName.setVisible(true);
+                    paneDatabaseName.setVisible(true);
+                    break;
+                case "Save to database":
+                    paneCollectionName.setVisible(false);
+                    paneDatabaseName.setVisible(false);
             }
         });
 
@@ -303,10 +295,8 @@ public class Step2Controller implements Initializable {
     private void parseFile(FileInFileSystem file) {
         List<String[]> ol = file.getRs();
         parsing.setWrapText(true);
-        //parsing.setText(ol.toString());
-        Iterator<String[]> iterator = ol.iterator();
-        while (iterator.hasNext()) {
-            String joinedString = Arrays.toString(iterator.next());
+        for (String[] anOl : ol) {
+            String joinedString = Arrays.toString(anOl);
             parsing.appendText("\n" + joinedString);
         }
     }
@@ -319,9 +309,8 @@ public class Step2Controller implements Initializable {
 
         List<DsParams> dsParams = new ArrayList<>();
         ObservableList ol = httpRequestParams.getParagraphs();
-        Iterator<CharSequence> iterator = ol.iterator();
-        while (iterator.hasNext()) {
-            String temp = iterator.next().toString();
+        for (Object anOl : ol) {
+            String temp = anOl.toString();
             String[] seq = temp.split("=");
             DsParams ds = new DsParams(seq[0], seq[1], TypeDef.defType(seq[1]), false);
             dsParams.add(ds);
@@ -330,7 +319,7 @@ public class Step2Controller implements Initializable {
         return dsParams;
     }
 
-    public void hidePane() {
+    void hidePane() {
         labelBrowse.setText("Choose file in filesystem");
         optionsPane.setVisible(false);
         autorizationTab.setDisable(true);
@@ -357,7 +346,6 @@ public class Step2Controller implements Initializable {
     private void saveFile(String content, File file) {
 
     }
-
 }
 
 

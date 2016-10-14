@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -26,13 +25,10 @@ public class MainController extends Application implements Initializable {
 
     private static Stage primaryStage;
     private List<DataSource> connections;
-    private ArangoDbManager arango;
+    private ArangoDbManager arangoDbManager;
+
     @FXML
     private AnchorPane main_pane;
-
-    @FXML
-    private Button create_button;
-
     @FXML
     private TableView tableView;
     @FXML
@@ -53,7 +49,7 @@ public class MainController extends Application implements Initializable {
     }
 
     @FXML
-    private void onCreateButton(ActionEvent event) throws Exception {
+    private void onCreateButton() throws Exception {
         primaryStage = new Stage();
         primaryStage.setTitle("Step 1");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("step1.fxml"));
@@ -64,12 +60,10 @@ public class MainController extends Application implements Initializable {
         primaryStage.setScene(scene);
         Stage st = (Stage) main_pane.getScene().getWindow();
         primaryStage.show();
-
-
     }
 
     @FXML
-    private void onEditButton(ActionEvent event) throws Exception {
+    private void onEditButton() throws Exception {
         primaryStage = new Stage();
         primaryStage.setTitle("Step 2");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("step2.fxml"));
@@ -77,7 +71,6 @@ public class MainController extends Application implements Initializable {
         Step2Controller sc = loader.getController();
 
         int selectedRowIndex = tableView.getSelectionModel().getSelectedIndex();
-
         DataSource selectedItem = connections.get(selectedRowIndex);
 
         sc.setPrevStage(primaryStage);
@@ -98,60 +91,8 @@ public class MainController extends Application implements Initializable {
         primaryStage.show();
     }
 
-    public MainController() {
-        arango = new ArangoDbManager();
-    }
-
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-
-        colName.setCellValueFactory(new PropertyValueFactory<Row, String>("name"));
-        colType.setCellValueFactory(new PropertyValueFactory<Row, String>("type"));
-        colCreated.setCellValueFactory(new PropertyValueFactory<Row, String>("created"));
-        colCreatedBy.setCellValueFactory(new PropertyValueFactory<Row, String>("createdBy"));
-        colLastUpdate.setCellValueFactory(new PropertyValueFactory<Row, String>("lastUpdate"));
-        colLastUpdatedBy.setCellValueFactory(new PropertyValueFactory<Row, String>("lastUpdatedBy"));
-
-        List<List<List<DataSource>>> ds = arango.readDatabases();
-        if (!ds.equals(null)) {
-            connections = new ArrayList<DataSource>();
-            for (int i = 0; i < ds.size(); i++) {
-                for (int j = 0; j < ds.get(i).size(); j++) {
-                    for (int k = 0; k < ds.get(i).get(j).size(); k++) {
-                        DataSource data = (DataSource) ds.get(i).get(j).get(k);
-                        if (data != null) connections.add(data);
-                    }
-                }
-            }
-
-            ObservableList<Row> data = FXCollections.observableArrayList();
-            for (int i = 0; i < connections.size(); i++) {
-                Row row = new Row();
-                row.setName(connections.get(i).getName());
-                row.setType(connections.get(i).getDs_type());
-                row.setCreated(connections.get(i).getCreated());
-                row.setCreatedBy(connections.get(i).getCreated_by());
-                row.setLastUpdate(connections.get(i).getUpdated());
-                row.setLastUpdateBy(connections.get(i).getUpdated_by());
-                data.add(row);
-            }
-
-            tableView.setItems(data);
-        }
-    }
-
     @FXML
-    public void onSynchronizeButton(){
-
-    }
-
-    @FXML
-    public void onClose() {
-        System.exit(0);
-    }
-
-    @FXML
-    public void onDeleteButton(){
+    public void onDeleteButton() {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete");
@@ -165,12 +106,66 @@ public class MainController extends Application implements Initializable {
 
         Optional<ButtonType> result = alert.showAndWait();
 
-        if (result.get() == yesButton){
+        if (result.isPresent() && result.get() == yesButton) {
 
-           }
-        else if (result.get() == noButton) {
+            int selectedRowIndex = tableView.getSelectionModel().getSelectedIndex();
+            DataSource selectedItem = connections.get(selectedRowIndex);
 
+            arangoDbManager.deleteDocument(selectedItem.getTgt_db(), selectedItem.getTgt_collection(),
+                    selectedItem.getKey());
         }
     }
 
+    public MainController() {
+        arangoDbManager = new ArangoDbManager();
+    }
+
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+
+        colName.setCellValueFactory(new PropertyValueFactory<Row, String>("name"));
+        colType.setCellValueFactory(new PropertyValueFactory<Row, String>("type"));
+        colCreated.setCellValueFactory(new PropertyValueFactory<Row, String>("created"));
+        colCreatedBy.setCellValueFactory(new PropertyValueFactory<Row, String>("createdBy"));
+        colLastUpdate.setCellValueFactory(new PropertyValueFactory<Row, String>("lastUpdate"));
+        colLastUpdatedBy.setCellValueFactory(new PropertyValueFactory<Row, String>("lastUpdatedBy"));
+
+        List<List<List<DataSource>>> ds = arangoDbManager.readDatabases();
+        if (!ds.equals(null)) {
+            connections = new ArrayList<>();
+            for (List<List<DataSource>> d : ds) {
+                for (List<DataSource> aD : d) {
+                    for (DataSource anAD : aD) {
+                        if (anAD != null) {
+                            connections.add(anAD);
+                        }
+                    }
+                }
+            }
+
+            ObservableList<Row> data = FXCollections.observableArrayList();
+            for (DataSource connection : connections) {
+                Row row = new Row();
+                row.setName(connection.getName());
+                row.setType(connection.getDs_type());
+                row.setCreated(connection.getCreated());
+                row.setCreatedBy(connection.getCreated_by());
+                row.setLastUpdate(connection.getUpdated());
+                row.setLastUpdateBy(connection.getUpdated_by());
+                data.add(row);
+            }
+
+            tableView.setItems(data);
+        }
+    }
+
+    @FXML
+    public void onSynchronizeButton() {
+
+    }
+
+    @FXML
+    public void onClose() {
+        System.exit(0);
+    }
 }

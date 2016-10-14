@@ -24,7 +24,6 @@ public class AutorizationController implements Initializable {
     @FXML
     private PasswordField password;
 
-    private Stage prevStage;
     private Stage primaryStage;
 
     @FXML
@@ -32,6 +31,12 @@ public class AutorizationController implements Initializable {
 
         ArangoDbManager.User = user.getText();
         ArangoDbManager.Password = password.getText();
+
+        ArangoDbManager arangoDbManager = new ArangoDbManager();
+        if (!arangoDbManager.verifyUser()) {
+            return;
+        }
+
         primaryStage = new Stage();
         primaryStage.setTitle("SL Datasource Manager");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("main_form.fxml"));
