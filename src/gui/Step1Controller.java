@@ -66,6 +66,8 @@ public class Step1Controller implements Initializable {
         sc.setType(ds_type.getValue().toString());
         sc.setNameOfSource(name.getText());
         sc.setCurrentConnection(newConnection);
+
+        if (ds_type.getValue().equals("File")) sc.hidePane();
         primaryStage.show();
     }
 

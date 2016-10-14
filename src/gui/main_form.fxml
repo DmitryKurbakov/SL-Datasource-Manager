@@ -28,7 +28,7 @@
                   <Font size="9.0" />
                </font>
             </Button>
-            <Button layoutX="38.0" layoutY="3.0" mnemonicParsing="false" text="Edit" AnchorPane.leftAnchor="38.0" AnchorPane.topAnchor="0.0">
+            <Button onAction="#onEditButton" layoutX="38.0" layoutY="3.0" mnemonicParsing="false" text="Edit" AnchorPane.leftAnchor="38.0" AnchorPane.topAnchor="0.0">
                <font>
                   <Font size="9.0" />
                </font>

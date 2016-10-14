@@ -60,23 +60,24 @@
                                  </AnchorPane>
                               <AnchorPane layoutX="10.0" layoutY="215.0" prefHeight="50.0" prefWidth="604.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                                  <children>
-                                    <Label layoutX="6.0" layoutY="6.0" text="Label" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0">
+                                    <Label fx:id="labelBrowse" layoutX="6.0" layoutY="6.0" text="URL" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0">
                                        <font>
                                           <Font size="12.0" />
                                        </font></Label>
-                                    <TextField layoutY="20.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0">
+                                    <TextField fx:id="filePathTextField" layoutY="20.0" prefHeight="25.0" prefWidth="342.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0">
                                        <font>
                                           <Font size="12.0" />
                                        </font></TextField>
-                                    <Button layoutX="149.0" layoutY="20.0" mnemonicParsing="false" onAction="#onLoadButton" text="Load">
+                                    <Button layoutX="342.0" layoutY="20.0" mnemonicParsing="false" onAction="#onBrowseButton" text="Browse">
                                        <font>
                                           <Font size="12.0" />
-                                       </font></Button>
+                                       </font>
+                                    </Button>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane layoutX="10.0" layoutY="262.0" prefHeight="125.0" prefWidth="479.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+                              <AnchorPane fx:id="optionsPane" layoutX="10.0" layoutY="262.0" prefHeight="125.0" prefWidth="479.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                                  <children>
-                                    <Label layoutY="1.0" text="Label" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0">
+                                    <Label layoutY="1.0" text="Enter options" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0">
                                        <font>
                                           <Font size="12.0" />
                                        </font></Label>
@@ -91,9 +92,40 @@
                                           </AnchorPane>
                      </content>
                 </Tab>
-                <Tab text="Authorization">
+                <Tab  fx:id="autorizationTab" text="Authorization">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                                 <children>
+                                    <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="11.0" prefWidth="451.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+                                       <children>
+                                          <Label layoutY="-8.0" text="Enter login and password" AnchorPane.leftAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="5.0" layoutY="33.0" prefHeight="60.0" prefWidth="477.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+                                       <children>
+                                          <Label layoutY="1.0" text="Login" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <TextField layoutY="27.0" prefHeight="25.0" prefWidth="204.0" AnchorPane.leftAnchor="0.0">
+                                             <font>
+                                                <Font size="12.0" />
+                                             </font>
+                                          </TextField>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="5.0" layoutY="93.0" prefHeight="60.0" prefWidth="477.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
+                                       <children>
+                                          <Label layoutY="1.0" text="Password" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <PasswordField layoutY="27.0" prefHeight="25.0" prefWidth="204.0" AnchorPane.leftAnchor="0.0">
+                                             <font>
+                                                <Font size="12.0" />
+                                             </font>
+                                          </PasswordField>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                           </children></AnchorPane>
                   </content>
                 </Tab>
                   <Tab text="Parsing">
@@ -116,7 +148,7 @@
                                  <children>
                                     <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="0.0" prefWidth="469.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                                        <children>
-                                          <ChoiceBox fx:id="saveOption" layoutY="-6.0" prefHeight="39.0" prefWidth="178.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" value="Save to disc">
+                                          <ChoiceBox fx:id="saveOption" layoutY="-6.0" prefHeight="39.0" prefWidth="178.0" value="Save to disc" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                                               <items>
                                                   <FXCollections fx:factory="observableArrayList">
                                                       <String fx:value="Save to database" />
@@ -204,6 +236,11 @@
                <font>
                   <Font size="12.0" />
                </font></Button>
+            <Button mnemonicParsing="false" onAction="#onLoadButton" text="Load" AnchorPane.leftAnchor="0.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </children>

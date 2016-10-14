@@ -15,9 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -35,12 +33,19 @@ public class Step2Controller implements Initializable {
     private static Stage prevStage;
     private static Stage primaryStage;
     ArangoDbManager arangoDbManager;
+    private String pathToFile;
 
     private DataSource currentConnection;
+
+    @FXML private AnchorPane step2_pane;
 
     @FXML private AnchorPane paneCollectionName;
 
     @FXML private AnchorPane paneDatabaseName;
+
+    @FXML private AnchorPane optionsPane;
+
+    @FXML private Tab autorizationTab;
 
     @FXML private TextField collectionName;
 
@@ -59,6 +64,10 @@ public class Step2Controller implements Initializable {
     @FXML private TextArea parsing;
 
     @FXML private TextArea httpRequestParams;
+
+    @FXML private TextField filePathTextField;
+
+    @FXML private Label labelBrowse;
 
     public DataSource getCurrentConnection() {
         return currentConnection;
@@ -94,35 +103,29 @@ public class Step2Controller implements Initializable {
     }
 
     @FXML
-    public void onLoadButton() {
+    public void onBrowseButton() {
 
-        switch (currentConnection.getDs_type()) {
-            case "File":
-                createFileSource();
-                break;
-            case "REST":
-                createRestSource();
-                break;
-            case "JDBC":
-                createJDBCSource();
-                break;
-        }
-        setAtributes();
-    }
-
-    public void createFileSource() {
         FileInFileSystem source = null;
         try {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV", "*.csv"));
             fileChooser.setTitle("Choose file");
-            source = new FileInFileSystem(currentConnection, fileChooser.showOpenDialog(prevStage).getAbsolutePath());
-            parseFile(source);
+            pathToFile = fileChooser.showOpenDialog(prevStage).getAbsolutePath();
+            filePathTextField.setText(pathToFile);
         }
         catch (NullPointerException ex) {}
         catch (Exception ex){}
 
+    }
 
+    public void createFileSource() {
+        FileInFileSystem source = null;
+        try {
+            source = new FileInFileSystem(currentConnection, pathToFile);
+            parseFile(source);
+            parseFile(source);
+        }
+        catch (NullPointerException ex) {}
     }
 
     public void createRestSource() {
@@ -155,6 +158,24 @@ public class Step2Controller implements Initializable {
                 }
             }
         });
+
+    }
+
+    @FXML public void onLoadButton(){
+
+        switch (currentConnection.getDs_type()) {
+            case "File":
+                createFileSource();
+                break;
+            case "REST":
+                createRestSource();
+                break;
+            case "JDBC":
+                createJDBCSource();
+                break;
+        }
+
+        setAtributes();
     }
 
     private void setAtributes() {
@@ -206,6 +227,13 @@ public class Step2Controller implements Initializable {
         }
 
         return dsParams;
+    }
+
+    public void hidePane(){
+        labelBrowse.setText("Choose file in filesystem");
+        optionsPane.setVisible(false);
+        autorizationTab.setDisable(true);
+        step2_pane.setPrefHeight(370);
     }
 
 }
