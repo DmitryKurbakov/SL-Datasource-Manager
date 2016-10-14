@@ -24,11 +24,11 @@ public class FileInFileSystem {
     Boolean hasHeader;
     List<String[]> rs;
 
-    public ObservableList getRowset(){
+    public ObservableList getRowset() {
         return this.rowset;
     }
 
-    public List<String[]> getRs(){
+    public List<String[]> getRs() {
         return this.rs;
     }
 
@@ -37,7 +37,7 @@ public class FileInFileSystem {
     }
 
 
-    public FileInFileSystem(DataSource source, String filepath){
+    public FileInFileSystem(DataSource source, String filepath) {
         this.source = source;
 
         this.filepath = filepath;

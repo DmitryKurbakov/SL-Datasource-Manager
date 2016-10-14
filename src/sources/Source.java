@@ -6,6 +6,10 @@ public class Source<T> {
     String password;
     String filepath;
 
-    public T testConnection(){return null;}
-    public void saveConnection(){}
+    public T testConnection() {
+        return null;
+    }
+
+    public void saveConnection() {
+    }
 }

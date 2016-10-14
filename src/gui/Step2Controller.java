@@ -34,6 +34,15 @@ public class Step2Controller implements Initializable {
     private static Stage primaryStage;
     ArangoDbManager arangoDbManager;
     private String pathToFile;
+    private boolean isUpdate;
+
+    public boolean isUpdate() {
+        return isUpdate;
+    }
+
+    public void setUpdate(boolean update) {
+        isUpdate = update;
+    }
 
     private DataSource currentConnection;
 
@@ -102,13 +111,13 @@ public class Step2Controller implements Initializable {
                 this.loadFreq.setValue("Online");
                 break;
             case "Daily":
-                this.loadFreq.setValue("Online");
+                this.loadFreq.setValue("Daily");
                 break;
             case "Weekly":
-                this.loadFreq.setValue("Online");
+                this.loadFreq.setValue("Weekly");
                 break;
             case "Monthly":
-                this.loadFreq.setValue("Online");
+                this.loadFreq.setValue("Monthly");
                 break;
         }
     }
@@ -139,9 +148,15 @@ public class Step2Controller implements Initializable {
 
     public void onSaveButton() throws Exception {
         setAtributes();
-        arangoDbManager.createDocument(currentConnection.getTgt_db(),
-                currentConnection.getTgt_collection(),currentConnection);
-
+        if(!isUpdate) {
+            arangoDbManager.createDocument(currentConnection.getTgt_db(),
+                    currentConnection.getTgt_collection(), currentConnection);
+        }
+        else {
+            currentConnection.setUpdated_by(ArangoDbManager.User);
+            arangoDbManager.updateDocument(currentConnection.getTgt_db(), currentConnection.getTgt_collection(),
+                    currentConnection, currentConnection.getKey());
+        }
         prevStage.close();
     }
 
@@ -160,6 +175,7 @@ public class Step2Controller implements Initializable {
 
     public void createFileSource() {
         FileInFileSystem source = null;
+        currentConnection.setFile_ds(new FileDS());
         try {
             source = new FileInFileSystem(currentConnection, pathToFile);
             parseFile(source);
@@ -172,9 +188,6 @@ public class Step2Controller implements Initializable {
         currentConnection.setRest_ds(new RestDs("url", parseHttpRequestParams(), "type"));
         Rest rest = new Rest(currentConnection.getRest_ds());
         String result = rest.testConnection("GET");
-    }
-
-    public void createJDBCSource() {
     }
 
     @Override
@@ -209,10 +222,6 @@ public class Step2Controller implements Initializable {
                 break;
             case "REST":
                 createRestSource();
-                break;
-            case "JDBC":
-                createJDBCSource();
-                break;
         }
 
         setAtributes();

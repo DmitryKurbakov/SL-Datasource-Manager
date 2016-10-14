@@ -5,6 +5,7 @@ import com.arangodb.ArangoDriver;
 import com.arangodb.ArangoException;
 import com.arangodb.entity.CollectionEntity;
 import com.arangodb.entity.CollectionsEntity;
+import com.arangodb.entity.DocumentEntity;
 import data_object.DataSource;
 
 import java.util.ArrayList;
@@ -45,18 +46,23 @@ public class ArangoDbManager {
         arangoDriver.setDefaultDatabase(database);
         DataSource dataSource = null;
         try {
-            dataSource = arangoDriver.getDocument(collection, id.split("/")[1], DataSource.class).getEntity();
+            DocumentEntity<DataSource> document =
+                    arangoDriver.getDocument(collection, id.split("/")[1], DataSource.class);
+            dataSource = document.getEntity();
+            if (dataSource != null) {
+                dataSource.setKey(document.getDocumentKey());
+            }
         } catch (ArangoException e) {
             System.out.println("Failed to get document. " + e.getMessage());
         }
         return dataSource;
     }
 
-    public boolean updateDocument(String database, String collection, DataSource dataSource, String id) {
+    public boolean updateDocument(String database, String collection, DataSource dataSource, String key) {
 
         arangoDriver.setDefaultDatabase(database);
         try {
-            arangoDriver.updateDocument(arangoDriver.getDocument(collection, id.split("/")[1], DataSource.class)
+            arangoDriver.updateDocument(arangoDriver.getDocument(collection, key, DataSource.class)
                     .getDocumentHandle(), dataSource);
             return true;
         } catch (ArangoException e) {

@@ -5,6 +5,15 @@ import java.util.Date;
 
 public class DataSource {
 
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    private String key;
     private String created;
     private String updated;
     private TgtLoadSchedule[] tgt_load_schedule;
@@ -29,6 +38,14 @@ public class DataSource {
 
     public String getName() {
         return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDs_type(String ds_type) {
+        this.ds_type = ds_type;
     }
 
     public void setDesc(String desc) {
@@ -151,25 +168,13 @@ public class DataSource {
         this.processing_type = processing_type;
     }
 
-    public DataSource(String ds_type, String name) {
+    public DataSource(String ds_type, String name, String created_by) {
 
         this.ds_type = ds_type;
         this.name = name;
         created = new SimpleDateFormat("dd.MM.yyyy hh:mm").format(new Date());
         updated = new SimpleDateFormat("dd.MM.yyyy hh:mm").format(new Date());
-        created_by = "An";
-        updated_by = "An";
-        defType(ds_type);
-    }
-
-    private void defType(String type) {
-
-        if (type.equals("File")) {
-            file_ds = new FileDS();
-        }
-
-        if (type.equals("Rest")) {
-//            rest_ds = new RestDs();
-        }
+        this.created_by = created_by;
+        updated_by = created_by;
     }
 }//end of class

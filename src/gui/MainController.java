@@ -88,6 +88,7 @@ public class MainController extends Application implements Initializable {
         sc.setCollectionName(selectedItem.getTgt_collection());
         sc.setLoadFreq(selectedItem.getTgt_load_freq());
         sc.setSourceDescr(selectedItem.getDesc());
+        sc.setUpdate(true);
 
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);

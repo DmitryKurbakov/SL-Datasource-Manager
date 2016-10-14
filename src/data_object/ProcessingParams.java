@@ -8,7 +8,7 @@ public class ProcessingParams {
     private Boolean fname_add_date;
     private Boolean fname_add_time;
 
-    public ProcessingParams(){
+    public ProcessingParams() {
 
     }
 }

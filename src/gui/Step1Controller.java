@@ -1,6 +1,7 @@
 package gui;
 
 import data_object.DataSource;
+import helpers.ArangoDbManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,7 +51,7 @@ public class Step1Controller implements Initializable {
 
     public void onNextButton(ActionEvent event) throws Exception {
 
-        DataSource newConnection = new DataSource(ds_type.getValue().toString(), name.getText());
+        DataSource newConnection = new DataSource(ds_type.getValue().toString(), name.getText(), ArangoDbManager.User);
 
         primaryStage = new Stage();
         primaryStage.setTitle("Step 2");
@@ -66,6 +67,7 @@ public class Step1Controller implements Initializable {
         sc.setNameOfSource(name.getText());
         sc.setType(ds_type.getValue().toString());
         sc.setCurrentConnection(newConnection);
+        sc.setUpdate(false);
 
         if (ds_type.getValue().equals("File")) sc.hidePane();
         primaryStage.show();
