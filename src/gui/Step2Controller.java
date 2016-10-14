@@ -15,9 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
@@ -130,7 +128,7 @@ public class Step2Controller implements Initializable {
     }
 
     public void setUrlField(String urlField) {
-        this.urlField.setText(urlField);
+        this.filePathTextField.setText(urlField);
     }
 
     public Step2Controller() {
@@ -147,29 +145,15 @@ public class Step2Controller implements Initializable {
 
     @FXML
     public void onBrowseButton() {
-
-        switch (currentConnection.getDs_type()) {
-            case "File":
-                createFileSource();
-                break;
-            case "REST":
-                createRestSource();
-                break;
-        }
-        setAtributes();
-    }
-
-    public void createFileSource() {
-        FileInFileSystem source = null;
         try {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV", "*.csv"));
             fileChooser.setTitle("Choose file");
             pathToFile = fileChooser.showOpenDialog(prevStage).getAbsolutePath();
-            filePathTextField.setText(pathToFile);
         }
-        catch (NullPointerException ex) {}
-        catch (Exception ex){}
+        catch (NullPointerException ex){}
+        filePathTextField.setText(pathToFile);
+    }
 
 
     public void createFileSource() {
@@ -185,7 +169,7 @@ public class Step2Controller implements Initializable {
     public void createRestSource() {
         currentConnection.setRest_ds(new RestDs("url", parseHttpRequestParams(), "type"));
         Rest rest = new Rest(currentConnection.getRest_ds());
-        String result = rest.testConnection();
+        String result = rest.testConnection("GET");
     }
 
     public void createJDBCSource() {
@@ -230,6 +214,7 @@ public class Step2Controller implements Initializable {
         }
 
         setAtributes();
+
     }
 
     private void setAtributes() {
