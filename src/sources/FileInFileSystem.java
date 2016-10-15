@@ -41,7 +41,7 @@ public class FileInFileSystem {
         this.source = source;
 
         this.filepath = filepath;
-        source.getFile_ds().setFile_type(getFileType());
+
         testConnection();
     }
 
@@ -60,6 +60,7 @@ public class FileInFileSystem {
 
             ColumnsPopulate cp = new ColumnsPopulate(rs, hasHeader);
             source.getFile_ds().setFile_delimeter(new String(new char[]{s.getSeparator()}));
+            source.getFile_ds().setFile_type(getFileType());
             source.getFile_ds().setFile_header(hasHeader);
             source.getFile_ds().setFile_columns(cp.getFileColumns());
         } catch (FileNotFoundException ex) {
@@ -70,8 +71,13 @@ public class FileInFileSystem {
     }
 
     private String getFileType() {
-        String[] ls = filepath.split("\\.");
-        return ls[ls.length - 1];
+        char[] charArr = source.getFile_ds().getFile_delimeter().toCharArray();
+
+        for (char ch: charArr) {
+            if (ch < ' ' || ch > ' ') continue;
+            else return "fixed";
+        }
+        return "delimited";
     }
 
     private boolean isExistHeader(List<String[]> rs) {

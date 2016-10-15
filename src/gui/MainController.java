@@ -74,8 +74,13 @@ public class MainController extends Application implements Initializable {
         Pane pane = loader.load();
         Step2Controller sc = loader.getController();
 
+        DataSource selectedItem;
         int selectedRowIndex = tableView.getSelectionModel().getSelectedIndex();
-        DataSource selectedItem = connections.get(selectedRowIndex);
+        try {
+            selectedItem = connections.get(selectedRowIndex);
+        } catch (ArrayIndexOutOfBoundsException ex){
+            return;
+        }
 
         sc.setPrevStage(primaryStage);
         sc.setCurrentConnection(selectedItem);
@@ -90,8 +95,8 @@ public class MainController extends Application implements Initializable {
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
         Stage st = (Stage) main_pane.getScene().getWindow();
-
         if (connections.get(selectedRowIndex).getDs_type().equals("File")) sc.hidePane();
+        if (connections.get(selectedRowIndex).getDs_type().equals("REST")) sc.setBrowseButtonDisabled();
         sc.setSaveButtonDisable(false);
         primaryStage.show();
     }

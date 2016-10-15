@@ -106,6 +106,9 @@ public class Step2Controller implements Initializable{
     @FXML
     private Button saveButton;
 
+    @FXML
+    private Button browseButton;
+
     public DataSource getCurrentConnection() {
         return currentConnection;
     }
@@ -186,11 +189,9 @@ public class Step2Controller implements Initializable{
 
         if (saveOption.getValue().equals("Save to disc")) {
             saveFile();
-            prevStage.close();
             return;
         }
-
-        if (!isUpdate) {
+        else if (!isUpdate) {
             arangoDbManager.createDocument(currentConnection.getTgt_db(),
                     currentConnection.getTgt_collection(), currentConnection);
         } else {
@@ -198,6 +199,7 @@ public class Step2Controller implements Initializable{
             arangoDbManager.updateDocument(currentConnection.getTgt_db(), currentConnection.getTgt_collection(),
                     currentConnection, currentConnection.getKey());
         }
+
         prevStage.close();
     }
 
@@ -245,6 +247,7 @@ public class Step2Controller implements Initializable{
         currentConnection.setRest_ds(new RestDs("url", parseHttpRequestParams(), "type"));
         Rest rest = new Rest(currentConnection.getRest_ds());
         String result = rest.testConnection("GET");
+        parseRest(result);
     }
 
     @Override
@@ -281,8 +284,6 @@ public class Step2Controller implements Initializable{
                 createRestSource();
         }
 
-        setAtributes();
-
     }
 
     private void setAtributes() {
@@ -317,8 +318,9 @@ public class Step2Controller implements Initializable{
         }
     }
 
-    private void parseRest(Rest rest) {
-
+    private void parseRest(String result) {
+        parsing.setWrapText(true);
+        parsing.setText(result);
     }
 
     private List<DsParams> parseHttpRequestParams() {
@@ -344,6 +346,10 @@ public class Step2Controller implements Initializable{
         parsingArea.setPrefHeight(240);
     }
 
+    public void setBrowseButtonDisabled(){
+        browseButton.setVisible(false);
+    }
+
     private void saveFile() {
         FileChooser fileChooser = new FileChooser();
 
@@ -352,9 +358,11 @@ public class Step2Controller implements Initializable{
 
         File file = fileChooser.showSaveDialog(prevStage);
 
-        if (file != null) {
-            ser(file);
+        if (file == null) {
+            return;
         }
+        else ser(file);
+        prevStage.close();
     }
 
     public void ser(File file) {
