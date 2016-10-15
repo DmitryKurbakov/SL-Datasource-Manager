@@ -1,6 +1,5 @@
-package data_object;
+package dataobject;
 
-import java.net.URL;
 import java.util.List;
 
 public class RestDs {

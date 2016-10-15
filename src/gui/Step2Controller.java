@@ -1,19 +1,12 @@
 package gui;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import com.google.gson.JsonObject;
-import com.arangodb.util.StringUtils;
-import data_object.DataSource;
-import data_object.DsParams;
-import data_object.FileDS;
-import data_object.RestDs;
+import dataobject.DataSource;
+import dataobject.DsParams;
+import dataobject.FileDS;
+import dataobject.RestDs;
 import helpers.ArangoDbManager;
 import helpers.TypeDef;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +21,6 @@ import sources.FileInFileSystem;
 import sources.Rest;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;

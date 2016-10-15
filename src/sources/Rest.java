@@ -1,7 +1,7 @@
 package sources;
 
-import data_object.DsParams;
-import data_object.RestDs;
+import dataobject.DsParams;
+import dataobject.RestDs;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;

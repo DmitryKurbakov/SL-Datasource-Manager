@@ -1,7 +1,7 @@
 package gui;
 
 
-import data_object.DataSource;
+import dataobject.DataSource;
 import helpers.ArangoDbManager;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -11,18 +11,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
 
-import java.io.File;
 import java.net.URL;
 import java.util.*;
-
-import static helpers.ArangoDbManager.User;
 
 
 public class MainController extends Application implements Initializable {
@@ -78,7 +73,7 @@ public class MainController extends Application implements Initializable {
         int selectedRowIndex = tableView.getSelectionModel().getSelectedIndex();
         try {
             selectedItem = connections.get(selectedRowIndex);
-        } catch (ArrayIndexOutOfBoundsException ex){
+        } catch (ArrayIndexOutOfBoundsException ex) {
             return;
         }
 
@@ -181,6 +176,4 @@ public class MainController extends Application implements Initializable {
     public void onClose() {
         System.exit(0);
     }
-
-
 }

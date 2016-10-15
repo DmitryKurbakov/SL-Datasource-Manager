@@ -6,7 +6,7 @@ import com.arangodb.ArangoException;
 import com.arangodb.entity.CollectionEntity;
 import com.arangodb.entity.CollectionsEntity;
 import com.arangodb.entity.DocumentEntity;
-import data_object.DataSource;
+import dataobject.DataSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +30,16 @@ public class ArangoDbManager {
 
     public void tryConnect() throws ArangoException {
         arangoDriver.getVersion();
+    }
+
+    public boolean isAvailable() {
+        try {
+            tryConnect();
+            return true;
+        } catch (ArangoException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean createDocument(String database, String collection, DataSource dataSource) {

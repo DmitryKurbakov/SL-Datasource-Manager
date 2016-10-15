@@ -1,6 +1,6 @@
 package gui;
 
-import data_object.DataSource;
+import dataobject.DataSource;
 import helpers.ArangoDbManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

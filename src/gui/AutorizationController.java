@@ -15,9 +15,15 @@ import javafx.stage.Stage;
 import org.apache.http.auth.AuthenticationException;
 import org.apache.http.conn.HttpHostConnectException;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class AutorizationController implements Initializable {
@@ -56,6 +62,21 @@ public class AutorizationController implements Initializable {
             alert.showAndWait();
 
             return;
+        }
+
+        try {
+            //Создаем объект свойст
+            Properties properties = new Properties();
+            File file = new File("properties.properties");
+            //Загружаем свойства из файла
+            properties.load(new FileInputStream(file));
+            //Устанавливаем значение свойста
+            properties.setProperty("user", user.getText());
+            properties.setProperty("password", password.getText());
+            //Сохраняем свойства в файл.
+            properties.store(new FileOutputStream(file), null);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         primaryStage = new Stage();

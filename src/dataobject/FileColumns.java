@@ -1,4 +1,4 @@
-package data_object;
+package dataobject;
 
 public class FileColumns {
 

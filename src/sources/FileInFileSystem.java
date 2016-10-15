@@ -7,7 +7,7 @@ import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 import helpers.ColumnsPopulate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import data_object.DataSource;
+import dataobject.DataSource;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

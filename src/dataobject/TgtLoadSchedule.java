@@ -1,4 +1,4 @@
-package data_object;
+package dataobject;
 
 import java.text.SimpleDateFormat;
 
