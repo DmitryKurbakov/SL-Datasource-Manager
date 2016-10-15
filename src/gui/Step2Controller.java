@@ -379,6 +379,12 @@ public class Step2Controller implements Initializable{
         saveButton.setDisable(flag);
     }
 
+    void setDatabasePropertiesChangingsDisable(){
+
+        collectionName.setEditable(false);
+        databaseName.setEditable(false);
+
+    }
 
 }
 

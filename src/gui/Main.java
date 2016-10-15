@@ -24,11 +24,10 @@ public class Main extends Application {
         Pane myPane = FXMLLoader.load(getClass().getResource("autorization.fxml"));
         Scene scene = new Scene(myPane);
 
-
-
         //primaryStage.setTitle("SL Datasource Manager");
         primaryStage.setScene(scene);
         primaryStage.centerOnScreen();
+        primaryStage.setResizable(false);
         primaryStage.show();
 
     }

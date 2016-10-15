@@ -63,6 +63,8 @@ public class MainController extends Application implements Initializable {
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
         Stage st = (Stage) main_pane.getScene().getWindow();
+        primaryStage.setResizable(false);
+        primaryStage.setAlwaysOnTop(true);
         primaryStage.show();
     }
 
@@ -91,6 +93,7 @@ public class MainController extends Application implements Initializable {
         sc.setLoadFreq(selectedItem.getTgt_load_freq());
         sc.setSourceDescr(selectedItem.getDesc());
         sc.setUpdate(true);
+        sc.setDatabasePropertiesChangingsDisable();
 
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
@@ -98,6 +101,8 @@ public class MainController extends Application implements Initializable {
         if (connections.get(selectedRowIndex).getDs_type().equals("File")) sc.hidePane();
         if (connections.get(selectedRowIndex).getDs_type().equals("REST")) sc.setBrowseButtonDisabled();
         sc.setSaveButtonDisable(false);
+        primaryStage.setResizable(false);
+        primaryStage.setAlwaysOnTop(true);
         primaryStage.show();
     }
 
@@ -138,6 +143,7 @@ public class MainController extends Application implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         loadData();
+        tableView.setEditable(false);
     }
 
     private void loadData() {
@@ -181,6 +187,5 @@ public class MainController extends Application implements Initializable {
     public void onClose() {
         System.exit(0);
     }
-
 
 }
