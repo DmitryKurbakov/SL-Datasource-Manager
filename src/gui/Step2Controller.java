@@ -1,5 +1,9 @@
 package gui;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import com.google.gson.JsonObject;
 import com.arangodb.util.StringUtils;
 import data_object.DataSource;
 import data_object.DsParams;
@@ -29,7 +33,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-public class Step2Controller implements Initializable {
+public class Step2Controller implements Initializable{
 
 
     private static Stage prevStage;
@@ -179,6 +183,12 @@ public class Step2Controller implements Initializable {
         }
 
         setAtributes();
+
+        if (saveOption.getValue().equals("Save to disc")) {
+            saveFile();
+            prevStage.close();
+            return;
+        }
 
         if (!isUpdate) {
             arangoDbManager.createDocument(currentConnection.getTgt_db(),
@@ -337,25 +347,29 @@ public class Step2Controller implements Initializable {
     private void saveFile() {
         FileChooser fileChooser = new FileChooser();
 
-        //Set extension filter
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON (*.json)", "*.json");
         fileChooser.getExtensionFilters().add(extFilter);
 
-        //Show save file dialog
         File file = fileChooser.showSaveDialog(prevStage);
 
         if (file != null) {
-            //saveFile(Santa_Claus_Is_Coming_To_Town, file);
+            ser(file);
         }
     }
 
-    private void saveFile(String content, File file) {
+    public void ser(File file) {
 
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            mapper.writeValue(file, currentConnection);
+        } catch (Exception ex) {
+        }
     }
 
     public void setSaveButtonDisable(Boolean flag){
         saveButton.setDisable(flag);
     }
+
 
 }
 

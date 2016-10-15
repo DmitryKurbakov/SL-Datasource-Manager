@@ -1,5 +1,6 @@
 package gui;
 
+
 import data_object.DataSource;
 import helpers.ArangoDbManager;
 import javafx.application.Application;
@@ -17,8 +18,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
+import java.io.File;
 import java.net.URL;
 import java.util.*;
+
+import static helpers.ArangoDbManager.User;
 
 
 public class MainController extends Application implements Initializable {
@@ -169,4 +173,7 @@ public class MainController extends Application implements Initializable {
     public void onClose() {
         System.exit(0);
     }
+
+
+
 }
