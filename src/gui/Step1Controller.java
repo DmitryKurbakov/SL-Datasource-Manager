@@ -81,6 +81,10 @@ public class Step1Controller implements Initializable {
         if (ds_type.getValue().equals("File")) sc.hidePane();
         if (ds_type.getValue().equals("REST")) sc.setBrowseButtonDisabled();
 
+
+        primaryStage.setResizable(false);
+        primaryStage.setAlwaysOnTop(true);
+
         primaryStage.show();
     }
 
