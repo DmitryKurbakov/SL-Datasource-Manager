@@ -287,6 +287,7 @@ public class Step2Controller implements Initializable{
     }
 
     private void setAtributes() {
+        currentConnection.setName(nameOfSource.getText());
         currentConnection.setDesc(sourceDescr.getText());
         currentConnection.setTgt_db(databaseName.getText());
         currentConnection.setTgt_collection(collectionName.getText());

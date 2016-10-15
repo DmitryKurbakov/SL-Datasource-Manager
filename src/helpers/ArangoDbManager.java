@@ -17,26 +17,19 @@ public class ArangoDbManager {
     static public String User;
     static public String Password;
 
-    private ArangoConfigure configure;
     private ArangoDriver arangoDriver;
 
     public ArangoDbManager() {
 
-        this.configure = new ArangoConfigure();
+        ArangoConfigure configure = new ArangoConfigure();
         configure.setUser(User);
         configure.setPassword(Password);
         configure.init();
         arangoDriver = new ArangoDriver(configure);
     }
 
-    public boolean verifyUser() {
-        try {
-            arangoDriver.getVersion();
-            return true;
-        } catch (ArangoException e) {
-            e.printStackTrace();
-            return false;
-        }
+    public void tryConnect() throws ArangoException {
+        arangoDriver.getVersion();
     }
 
     public boolean createDocument(String database, String collection, DataSource dataSource) {

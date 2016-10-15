@@ -1,17 +1,22 @@
 package gui;
 
+import com.arangodb.ArangoException;
 import helpers.ArangoDbManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.apache.http.auth.AuthenticationException;
+import org.apache.http.conn.HttpHostConnectException;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -33,7 +38,23 @@ public class AutorizationController implements Initializable {
         ArangoDbManager.Password = password.getText();
 
         ArangoDbManager arangoDbManager = new ArangoDbManager();
-        if (!arangoDbManager.verifyUser()) {
+
+        try {
+            arangoDbManager.tryConnect();
+        } catch (ArangoException e) {
+
+            e.printStackTrace();
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+
+            if (e.getErrorMessage() == "Unauthorized") {
+                alert.setContentText("Login or password are incorrect");
+            } else {
+                alert.setContentText("Database is unavailable");
+            }
+
+            alert.showAndWait();
+
             return;
         }
 

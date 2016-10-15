@@ -126,13 +126,21 @@ public class MainController extends Application implements Initializable {
         }
     }
 
+    @FXML
+    public void onSynchronizeButton() {
+        loadData();
+    }
+
     public MainController() {
         arangoDbManager = new ArangoDbManager();
     }
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        loadData();
+    }
 
+    private void loadData() {
         colName.setCellValueFactory(new PropertyValueFactory<Row, String>("name"));
         colType.setCellValueFactory(new PropertyValueFactory<Row, String>("type"));
         colCreated.setCellValueFactory(new PropertyValueFactory<Row, String>("created"));
@@ -170,15 +178,9 @@ public class MainController extends Application implements Initializable {
     }
 
     @FXML
-    public void onSynchronizeButton() {
-
-    }
-
-    @FXML
     public void onClose() {
         System.exit(0);
     }
-
 
 
 }

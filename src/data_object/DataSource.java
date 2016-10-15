@@ -18,7 +18,6 @@ public class DataSource {
     private String updated;
     private TgtLoadSchedule[] tgt_load_schedule;
     private DsAuth ds_auth;
-    private ProcessingParams processing_params;
     private WebDs web_ds;
     private RestDs rest_ds;
     private FileDS file_ds;
@@ -30,7 +29,6 @@ public class DataSource {
     private String tgt_db;
     private String tgt_collection;
     private String tgt_load_freq;
-    private String processing_type;
 
     public FileDS getFile_ds() {
         return file_ds;
@@ -86,14 +84,6 @@ public class DataSource {
 
     public void setDs_auth(DsAuth ds_auth) {
         this.ds_auth = ds_auth;
-    }
-
-    public ProcessingParams getProcessing_params() {
-        return processing_params;
-    }
-
-    public void setProcessing_params(ProcessingParams processing_params) {
-        this.processing_params = processing_params;
     }
 
     public WebDs getWeb_ds() {
@@ -160,14 +150,6 @@ public class DataSource {
         this.tgt_load_freq = tgt_load_freq;
     }
 
-    public String getProcessing_type() {
-        return processing_type;
-    }
-
-    public void setProcessing_type(String processing_type) {
-        this.processing_type = processing_type;
-    }
-
     public DataSource(String ds_type, String name, String created_by) {
 
         this.ds_type = ds_type;
@@ -177,4 +159,4 @@ public class DataSource {
         this.created_by = created_by;
         updated_by = created_by;
     }
-}//end of class
+}
