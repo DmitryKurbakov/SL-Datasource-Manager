@@ -25,4 +25,21 @@ public class RestDs {
         this.ds_params = ds_params;
         this.rest_result_type = rest_result_type;
     }
+
+    public String getParams() {
+        String str = "";
+
+        boolean first = true;
+
+        for (DsParams ds_param : ds_params) {
+            if(first) {
+                first = false;
+                str += ds_param;
+                continue;
+            }
+            str += "\n" + ds_param;
+        }
+
+        return str;
+    }
 }

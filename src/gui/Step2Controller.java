@@ -22,10 +22,13 @@ import sources.Rest;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class Step2Controller implements Initializable{
+public class Step2Controller implements Initializable {
 
 
     private static Stage prevStage;
@@ -90,9 +93,6 @@ public class Step2Controller implements Initializable{
     private TextArea httpRequestParams;
 
     @FXML
-    private TextField filePathTextField;
-
-    @FXML
     private Label labelBrowse;
 
     @FXML
@@ -100,6 +100,13 @@ public class Step2Controller implements Initializable{
 
     @FXML
     private Button browseButton;
+
+    @FXML
+    private TextField urlField;
+
+    public void setHttpRequestParams(String httpRequestParams) {
+        this.httpRequestParams.setText(httpRequestParams);
+    }
 
     public DataSource getCurrentConnection() {
         return currentConnection;
@@ -154,12 +161,8 @@ public class Step2Controller implements Initializable{
         this.databaseName.setText(databaseName);
     }
 
-    public void setHttpRequestParams(TextArea httpRequestParams) {
-        this.httpRequestParams = httpRequestParams;
-    }
-
     public void setUrlField(String urlField) {
-        this.filePathTextField.setText(urlField);
+        this.urlField.setText(urlField);
     }
 
     public Step2Controller() {
@@ -182,8 +185,7 @@ public class Step2Controller implements Initializable{
         if (saveOption.getValue().equals("Save to disc")) {
             saveFile();
             return;
-        }
-        else if (!isUpdate) {
+        } else if (!isUpdate) {
             arangoDbManager.createDocument(currentConnection.getTgt_db(),
                     currentConnection.getTgt_collection(), currentConnection);
         } else {
@@ -204,7 +206,7 @@ public class Step2Controller implements Initializable{
             pathToFile = fileChooser.showOpenDialog(prevStage).getAbsolutePath();
         } catch (NullPointerException ignored) {
         }
-        filePathTextField.setText(pathToFile);
+        urlField.setText(pathToFile);
     }
 
 
@@ -218,8 +220,8 @@ public class Step2Controller implements Initializable{
         } catch (NullPointerException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("You should choose file");
-
             alert.showAndWait();
+
             saveButton.setDisable(true);
             return;
         }
@@ -227,17 +229,16 @@ public class Step2Controller implements Initializable{
 
     public void createRestSource() {
         saveButton.setDisable(false);
-        if (filePathTextField.getText().equals("")) {
+        if (urlField.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("You should enter valid URL");
-
             alert.showAndWait();
+
             saveButton.setDisable(true);
             return;
         }
 
-        currentConnection.setRest_ds(new RestDs("url", parseHttpRequestParams(), "type"));
-        Rest rest = new Rest(currentConnection.getRest_ds());
+        Rest rest = new Rest(currentConnection, urlField.getText(), parseHttpRequestParams());
         String result = rest.testConnection("GET");
         parseRest(result);
     }
@@ -339,7 +340,7 @@ public class Step2Controller implements Initializable{
         parsingArea.setPrefHeight(240);
     }
 
-    public void setBrowseButtonDisabled(){
+    public void setBrowseButtonDisabled() {
         browseButton.setVisible(false);
     }
 
@@ -353,9 +354,23 @@ public class Step2Controller implements Initializable{
 
         if (file == null) {
             return;
-        }
-        else ser(file);
+        } else ser(file);
         prevStage.close();
+    }
+
+    private void saveDatabase() {
+
+        if (!isUpdate) {
+            arangoDbManager.createDocument(currentConnection.getTgt_db(), currentConnection.getTgt_collection(),
+                    currentConnection);
+
+        } else {
+            currentConnection.setUpdated_by(ArangoDbManager.User);
+            currentConnection.setUpdated(new SimpleDateFormat("dd.MM.yyyy hh:mm").format(new Date()));
+
+            arangoDbManager.updateDocument(currentConnection.getTgt_db(), currentConnection.getTgt_collection(),
+                    currentConnection, currentConnection.getKey());
+        }
     }
 
     public void ser(File file) {
@@ -367,17 +382,14 @@ public class Step2Controller implements Initializable{
         }
     }
 
-    public void setSaveButtonDisable(Boolean flag){
+    public void setSaveButtonDisable(Boolean flag) {
         saveButton.setDisable(flag);
     }
 
-    void setDatabasePropertiesChangingsDisable(){
-
+    void setDatabasePropertiesChangingsDisable() {
         collectionName.setEditable(false);
         databaseName.setEditable(false);
-
     }
-
 }
 
 

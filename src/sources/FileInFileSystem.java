@@ -1,6 +1,5 @@
 package sources;
 
-
 import com.opencsv.CSVParser;
 import com.opencsv.CSVReader;
 import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
@@ -13,8 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-
-import static com.sun.org.apache.xalan.internal.lib.ExsltStrings.split;
 
 public class FileInFileSystem {
 

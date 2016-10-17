@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.collections.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="step2_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="497.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Step2Controller">
+<AnchorPane fx:id="step2_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="528.0" prefWidth="497.0" xmlns="http://javafx.com/javafx/8.0.92" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.Step2Controller">
    <children>
       <AnchorPane layoutY="14.0" prefHeight="39.0" prefWidth="696.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -40,7 +46,7 @@
                                        <font>
                                           <Font size="12.0" />
                                        </font></Label>
-                                    <TextField editable="false" fx:id="type" layoutY="23.0" prefHeight="8.0" prefWidth="224.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0">
+                                    <TextField fx:id="type" editable="false" layoutY="23.0" prefHeight="8.0" prefWidth="224.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0">
                                        <font>
                                           <Font size="12.0" />
                                        </font></TextField>
@@ -64,7 +70,7 @@
                                        <font>
                                           <Font size="12.0" />
                                        </font></Label>
-                                    <TextField fx:id="filePathTextField" layoutY="20.0" prefHeight="25.0" prefWidth="342.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0">
+                                    <TextField fx:id="urlField" layoutY="20.0" prefHeight="25.0" prefWidth="342.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0">
                                        <font>
                                           <Font size="12.0" />
                                        </font></TextField>

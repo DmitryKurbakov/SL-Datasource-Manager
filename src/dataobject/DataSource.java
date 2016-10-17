@@ -42,10 +42,6 @@ public class DataSource {
         this.name = name;
     }
 
-    public void setDs_type(String ds_type) {
-        this.ds_type = ds_type;
-    }
-
     public void setDesc(String desc) {
         this.desc = desc;
     }
@@ -64,10 +60,6 @@ public class DataSource {
 
     public void setUpdated(String updated) {
         this.updated = updated;
-    }
-
-    public void setCreated(String created) {
-        this.created = created;
     }
 
     public TgtLoadSchedule[] getTgt_load_schedule() {
@@ -108,10 +100,6 @@ public class DataSource {
 
     public String getCreated_by() {
         return created_by;
-    }
-
-    public void setCreated_by(String created_by) {
-        this.created_by = created_by;
     }
 
     public String getUpdated_by() {

@@ -23,10 +23,15 @@ public class DsParams {
         return param_var;
     }
 
-    public DsParams(String param_name, String param_type, String param_dvalue, Boolean param_var) {
+    public DsParams(String param_name, String param_dvalue, String param_type, Boolean param_var) {
         this.param_name = param_name;
-        this.param_type = param_type;
         this.param_dvalue = param_dvalue;
+        this.param_type = param_type;
         this.param_var = param_var;
+    }
+
+    @Override
+    public String toString() {
+        return param_name + "=" + param_dvalue;
     }
 }

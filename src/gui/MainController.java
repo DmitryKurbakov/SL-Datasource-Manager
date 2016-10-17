@@ -2,6 +2,7 @@ package gui;
 
 
 import dataobject.DataSource;
+import dataobject.DsParams;
 import helpers.ArangoDbManager;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -16,7 +17,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.*;
 
 
@@ -89,6 +92,8 @@ public class MainController extends Application implements Initializable {
         sc.setSourceDescr(selectedItem.getDesc());
         sc.setUpdate(true);
         sc.setDatabasePropertiesChangingsDisable();
+        sc.setUrlField(selectedItem.getRest_ds().getRest_base_url());
+        sc.setHttpRequestParams(selectedItem.getRest_ds().getParams());
 
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
