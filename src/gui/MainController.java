@@ -45,6 +45,12 @@ public class MainController extends Application implements Initializable {
     private TableColumn colLastUpdate;
     @FXML
     private TableColumn colLastUpdatedBy;
+    @FXML
+    private TextArea log;
+
+    public void setLog(String log) {
+        this.log.setText(log);
+    }
 
     @Override
     public void start(Stage stage) {

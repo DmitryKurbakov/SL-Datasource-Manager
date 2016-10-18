@@ -33,6 +33,7 @@ public class Step2Controller implements Initializable {
 
     private static Stage prevStage;
     private static Stage primaryStage;
+
     ArangoDbManager arangoDbManager;
     private String pathToFile;
     private boolean isUpdate;

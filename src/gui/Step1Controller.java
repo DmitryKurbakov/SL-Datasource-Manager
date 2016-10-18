@@ -52,7 +52,7 @@ public class Step1Controller implements Initializable {
 
     public void onNextButton(ActionEvent event) throws Exception {
 
-        if (name.getText().equals("")){
+        if (name.getText().equals("")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("You should enter name of datasource");
 
