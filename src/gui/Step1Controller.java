@@ -78,12 +78,12 @@ public class Step1Controller implements Initializable {
         sc.logConsole = logConsole;
 
         if (ds_type.getValue().equals("File")) {
-            sc.hidePane();
             logConsole.appendText("Creating new file source\n");
+            sc.hidePane();
         }
         if (ds_type.getValue().equals("REST")) {
-            sc.setBrowseButtonDisabled();
             logConsole.appendText("Creating new rest source\n");
+            sc.setBrowseButtonDisabled();
         }
 
 

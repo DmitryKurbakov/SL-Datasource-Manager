@@ -105,8 +105,14 @@ public class MainController extends Application implements Initializable {
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
         Stage st = (Stage) main_pane.getScene().getWindow();
-        if (connections.get(selectedRowIndex).getDs_type().equals("File")) sc.hidePane();
-        if (connections.get(selectedRowIndex).getDs_type().equals("REST")) sc.setBrowseButtonDisabled();
+        if (connections.get(selectedRowIndex).getDs_type().equals("File"))  {
+            log.appendText("Editing file source\n");
+            sc.hidePane();
+        }
+        if (connections.get(selectedRowIndex).getDs_type().equals("REST"))  {
+            log.appendText("Editing rest source\n");
+            sc.setBrowseButtonDisabled();
+        }
         sc.setSaveButtonDisable(false);
         primaryStage.setResizable(false);
         primaryStage.setAlwaysOnTop(true);
@@ -133,8 +139,10 @@ public class MainController extends Application implements Initializable {
             int selectedRowIndex = tableView.getSelectionModel().getSelectedIndex();
             DataSource selectedItem = connections.get(selectedRowIndex);
 
-            arangoDbManager.deleteDocument(selectedItem.getTgt_db(), selectedItem.getTgt_collection(),
-                    selectedItem.getKey());
+            if (arangoDbManager.deleteDocument(selectedItem.getTgt_db(), selectedItem.getTgt_collection(),
+                    selectedItem.getKey())) {
+                log.appendText("Data item was deleted\n");
+            }
         }
     }
 

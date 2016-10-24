@@ -186,20 +186,18 @@ public class Step2Controller implements Initializable {
             logConsole.appendText("Data was successfully written on disc\n");
             return;
         } else if (!isUpdate) {
-            if(arangoDbManager.createDocument(currentConnection.getTgt_db(),
+            if (arangoDbManager.createDocument(currentConnection.getTgt_db(),
                     currentConnection.getTgt_collection(), currentConnection)) {
                 logConsole.appendText("Data was successfully saved to database\n");
-            }
-            else {
+            } else {
                 logConsole.appendText("Could not save data to database\n");
             }
         } else {
             currentConnection.setUpdated_by(ArangoDbManager.User);
-            if(arangoDbManager.updateDocument(currentConnection.getTgt_db(), currentConnection.getTgt_collection(),
+            if (arangoDbManager.updateDocument(currentConnection.getTgt_db(), currentConnection.getTgt_collection(),
                     currentConnection, currentConnection.getKey())) {
                 logConsole.appendText("Data was successfully updated in database\n");
-            }
-            else {
+            } else {
                 logConsole.appendText("Could not update data in database\n");
             }
         }
@@ -311,7 +309,11 @@ public class Step2Controller implements Initializable {
     @FXML
     public void onExitButton() {
         prevStage.close();
-        logConsole.appendText("Creating new source was canceled\n");
+        if (isUpdate) {
+            logConsole.appendText("Updating new source was canceled\n");
+        } else {
+            logConsole.appendText("Creating new source was canceled\n");
+        }
     }
 
     private void parseFile(FileInFileSystem file) {
