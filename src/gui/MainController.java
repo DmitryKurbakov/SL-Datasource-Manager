@@ -64,6 +64,7 @@ public class MainController extends Application implements Initializable {
         Pane pane = loader.load();
         Step1Controller sc = loader.getController();
         sc.setPrevStage(primaryStage);
+        sc.logConsole = log;
         Scene scene = new Scene(pane);
         primaryStage.setScene(scene);
         Stage st = (Stage) main_pane.getScene().getWindow();
@@ -79,7 +80,7 @@ public class MainController extends Application implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("step2.fxml"));
         Pane pane = loader.load();
         Step2Controller sc = loader.getController();
-
+        sc.logConsole = log;
         DataSource selectedItem;
         int selectedRowIndex = tableView.getSelectionModel().getSelectedIndex();
         try {
@@ -140,6 +141,7 @@ public class MainController extends Application implements Initializable {
     @FXML
     public void onSynchronizeButton() {
         loadData();
+        log.appendText("Trying to synchronize data with database\n");
     }
 
     public MainController() {

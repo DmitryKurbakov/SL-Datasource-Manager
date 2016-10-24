@@ -4,7 +4,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import dataobject.DataSource;
 import dataobject.DsParams;
 import dataobject.FileDS;
-import dataobject.RestDs;
 import helpers.ArangoDbManager;
 import helpers.TypeDef;
 import javafx.collections.ObservableList;
@@ -22,9 +21,7 @@ import sources.Rest;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -33,6 +30,7 @@ public class Step2Controller implements Initializable {
 
     private static Stage prevStage;
     private static Stage primaryStage;
+    public TextArea logConsole;
 
     ArangoDbManager arangoDbManager;
     private String pathToFile;
@@ -181,18 +179,29 @@ public class Step2Controller implements Initializable {
             return;
         }
 
-        setAtributes();
+        setAttributes();
 
         if (saveOption.getValue().equals("Save to disc")) {
             saveFile();
+            logConsole.appendText("Data was successfully written on disc\n");
             return;
         } else if (!isUpdate) {
-            arangoDbManager.createDocument(currentConnection.getTgt_db(),
-                    currentConnection.getTgt_collection(), currentConnection);
+            if(arangoDbManager.createDocument(currentConnection.getTgt_db(),
+                    currentConnection.getTgt_collection(), currentConnection)) {
+                logConsole.appendText("Data was successfully saved to database\n");
+            }
+            else {
+                logConsole.appendText("Could not save data to database\n");
+            }
         } else {
             currentConnection.setUpdated_by(ArangoDbManager.User);
-            arangoDbManager.updateDocument(currentConnection.getTgt_db(), currentConnection.getTgt_collection(),
-                    currentConnection, currentConnection.getKey());
+            if(arangoDbManager.updateDocument(currentConnection.getTgt_db(), currentConnection.getTgt_collection(),
+                    currentConnection, currentConnection.getKey())) {
+                logConsole.appendText("Data was successfully updated in database\n");
+            }
+            else {
+                logConsole.appendText("Could not update data in database\n");
+            }
         }
 
         prevStage.close();
@@ -280,7 +289,7 @@ public class Step2Controller implements Initializable {
 
     }
 
-    private void setAtributes() {
+    private void setAttributes() {
         currentConnection.setName(nameOfSource.getText());
         currentConnection.setDesc(sourceDescr.getText());
         currentConnection.setTgt_db(databaseName.getText());
@@ -302,6 +311,7 @@ public class Step2Controller implements Initializable {
     @FXML
     public void onExitButton() {
         prevStage.close();
+        logConsole.appendText("Creating new source was canceled\n");
     }
 
     private void parseFile(FileInFileSystem file) {

@@ -7,10 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -22,6 +19,7 @@ public class Step1Controller implements Initializable {
 
     private static Stage prevStage;
     private static Stage primaryStage;
+    public TextArea logConsole;
 
     @FXML
     private AnchorPane step1_pane;
@@ -77,9 +75,16 @@ public class Step1Controller implements Initializable {
         sc.setType(ds_type.getValue().toString());
         sc.setCurrentConnection(newConnection);
         sc.setUpdate(false);
+        sc.logConsole = logConsole;
 
-        if (ds_type.getValue().equals("File")) sc.hidePane();
-        if (ds_type.getValue().equals("REST")) sc.setBrowseButtonDisabled();
+        if (ds_type.getValue().equals("File")) {
+            sc.hidePane();
+            logConsole.appendText("Creating new file source\n");
+        }
+        if (ds_type.getValue().equals("REST")) {
+            sc.setBrowseButtonDisabled();
+            logConsole.appendText("Creating new rest source\n");
+        }
 
 
         primaryStage.setResizable(false);
@@ -95,6 +100,7 @@ public class Step1Controller implements Initializable {
     @FXML
     public void onCancelButton() {
         prevStage.close();
+        logConsole.appendText("Creating new source was canceled\n");
     }
 
 }
